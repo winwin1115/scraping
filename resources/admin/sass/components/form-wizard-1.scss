@@ -1,0 +1,82 @@
+.form-wizard-1 {
+
+    .steps ul {
+        border-bottom: 1px solid #333;
+    }
+
+    > .steps {
+        margin-top: 20px;
+
+        > ul > li > a {
+
+            background: #eee !important;
+
+             &,&:hover,&:active {
+                 height: auto;
+                 width: 100%;
+                 text-align: center;
+                 border-radius:0px;
+                 border-top-left-radius: 8px;
+                 border-top-right-radius: 8px;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+                 flex-wrap: wrap;
+                 padding: 0.5em 0em;
+                 margin: 0px 5px;
+             }
+        }
+
+        > ul > li > a > .icon-fa {
+            margin: 0;
+            width: 40px;
+        }
+
+        > ul > li.error > a {
+            background: $ls-color-red !important;
+            color: $white;
+        }
+
+        .current a,
+        .current a:active ,
+        .current a:hover {
+            color: $ls-color-black;
+            background-color: $ls-color-primary !important;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .done a,
+        .done a:active,
+        .done a:hover {
+            background: lighten($ls-color-primary, 30%) !important;
+            box-shadow: none;
+            color: $ls-color-black
+        }
+
+        > ul > li:first-child {
+            margin-left: 0;
+        }
+
+        > ul > li:last-child {
+            margin-right: 0;
+        }
+
+        .number {
+            display: none;
+        }
+    }
+
+    > .actions > ul > li {
+        margin: auto 5px;
+    }
+}
+@media (max-width: $medium-breakpoint){
+
+    .form-wizard-1 {
+
+        .content {
+            min-height: 520px;
+        }
+    }
+}
