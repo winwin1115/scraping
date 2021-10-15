@@ -15,7 +15,7 @@ class CreateCurrencysTable extends Migration
     {
         Schema::create('currencys', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('currency_rate');
+            $table->decimal('currency_rate', 10, 10);
             $table->timestamps();
         });
     }
