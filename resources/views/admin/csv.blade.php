@@ -19,7 +19,7 @@
                         <form action="{{ route('csv.putCsv') }}" method="post">
                             {{ csrf_field() }}
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-12">
                                     <label for="site_type">サイト名</label>
                                     <select class="form-control ls-select2">
                                         <option value="0">すべて</option>
@@ -28,7 +28,9 @@
                                         <option value="3">フリマ・オークション</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
                                     <label for="start_date">商品登録期間(から)</label>
                                     <div class="input-group">
                                         <input type="text" id="dob" name="dob"
@@ -40,7 +42,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label for="end_date">商品登録期間(まで)</label>
                                     <div class="input-group">
                                         <input type="text" id="dob" name="dob"

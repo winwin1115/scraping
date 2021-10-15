@@ -17,7 +17,7 @@ return [
 
     'sidebar' => [
         [
-            'title' => '商品登録',
+            'title' => '商品ページURL登録',
             'link' => '/urls',
             'active' => 'urls',
             'icon' => 'icon-fa icon-fa-shopping-cart',

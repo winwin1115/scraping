@@ -25,16 +25,16 @@ class ProfitsController extends Controller
             "Cache-Control" => "mult-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         );
-        $columns = array('Title', 'Assign');
+        $columns = array('Handle', 'Title', 'Body(HTMl)', 'Vendor', 'Tags', 'Published', 'Option1 Name', 'Option1 Value', 'Option2 Name', 'Option2 Value', 'Option3 Name', 'Option3 Vlaue', 'Variant SKU', 'Variant Vrams', 'Variant Inventory Tracker', 'Variant Inverntory Qty', 'Variant Inventory Policy', 'Variant Fullfillment Service', 'Variant Price', 'Variant Compare At Price', 'Variant Requires Shipping', 'Variant Taxable', 'Variant Barcode', 'Image Src', 'Image POosition', 'Image Alt Text', 'Gift Card', 'SEO Title', 'SEO Description', 'Google Shopping/Google Product Category', 'Google Shopping/Gender', 'Google Shopping/Age Group', 'Giigle Shopping/MPN', 'Google Shopping/AdWords Grouping', 'Google Shpping/AdWords Labels', 'Google Shopping/Condition', 'Google Shopping/Custom Product', 'Google Sjopping/Custom Label0', 'Google Shopping/Custom Label1', 'Google Shopping/Custom Label2', 'Google Shopping/Custom Label3', 'Google Shopping/Custom Label4', 'Variant Image', 'Variant Weight Unit', 'Variant Tax Code', 'Cost per item', 'Status', 'Standard Product Type', 'Custom Product Type');
         $callback = function() use($data, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
             foreach($data as $item) {
-                $row['Title'] = $item->site_type;
-                $row['Assign'] = $item->site_url;
+                $row['Handle'] = $item->site_type;
+                $row['Title'] = $item->site_url;
 
-                fputcsv($file, array($row['Title'], $row['Assign']));
+                fputcsv($file, array($row['Handle'], $row['Title']));
             }
 
             fclose($file);

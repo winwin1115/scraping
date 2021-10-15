@@ -7,13 +7,13 @@
 @section('content')
     <div class="main-content">
         <div class="page-header">
-            <h3 class="page-title">商品登録</h3>
+            <h3 class="page-title">商品ページURL登録</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">ホーム</a></li>
-                <li class="breadcrumb-item active">商品登録</li>
+                <li class="breadcrumb-item active">商品ページURL登録</li>
             </ol>
             <div class="page-actions">
-                <a href="#" class="btn btn-primary add-modal-btn" data-token="{{ csrf_token() }}"><i class="icon-fa icon-fa-plus"></i> 商品を追加</a>
+                <a href="#" class="btn btn-primary add-modal-btn" data-token="{{ csrf_token() }}"><i class="icon-fa icon-fa-plus"></i> 商品URLを追加</a>
             </div>
         </div>
         <div class="row">
@@ -55,7 +55,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-success">
-                    <h5 style="color: #fff;" class="modal-title" id="exampleModalLabel">商品追加</h5>
+                    <h5 style="color: #fff;" class="modal-title" id="exampleModalLabel">商品URLを追加</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
