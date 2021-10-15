@@ -15,7 +15,7 @@ class CreateProfitsTable extends Migration
     {
         Schema::create('profits', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('profit_rate', 10, 10);
+            $table->float('profit_rate');
             $table->timestamps();
         });
     }
