@@ -29,7 +29,7 @@ return [
             'icon' => 'icon-fa icon-fa-paypal',
         ],
         [
-            'title' => 'CSVで出品',
+            'title' => 'CSVで生成',
             'link' => '/csv',
             'active' => 'csv',
             'icon' => 'icon-fa icon-fa-cloud-download',

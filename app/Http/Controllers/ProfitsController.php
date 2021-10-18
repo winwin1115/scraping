@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Urls;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
+use Facebook\WebDriver\Chrome\ChromeDriver;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\WebDriverBy;
+
 class ProfitsController extends Controller
 {
     public function index()
@@ -15,6 +22,23 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
+        $driverPath = public_path('assets\uploads\chromedriver.exe');
+        putenv("webdriver.chrome.driver=" . $driverPath);
+
+        // chrome option
+        $options = new ChromeOptions();
+        $options->addArguments([
+            'disable-infobars',
+            '--headless',
+            'window-size=1920,1600',
+            '--no-sandbox'
+        ]);
+
+        $capabilities = DesiredCapabilities::chrome();
+        $capabilities->setCapability(ChromeOptions::CAPABILITY, $options);
+        
+        $driver = ChromeDriver::start($capabilities);
+        dd('ok');
         $filename = 'scraping.csv';
         $data = Urls::all();
 
