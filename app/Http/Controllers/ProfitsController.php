@@ -15,6 +15,8 @@ use Facebook\WebDriver\WebDriverBy;
 
 class ProfitsController extends Controller
 {
+    protected $webDriver;
+
     public function index()
     {
         return view('admin.csv');
@@ -22,9 +24,6 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
-        $driverPath = public_path('assets\uploads\chromedriver.exe');
-        putenv("webdriver.chrome.driver=" . $driverPath);
-
         // chrome option
         $options = new ChromeOptions();
         $options->addArguments([
@@ -36,8 +35,9 @@ class ProfitsController extends Controller
 
         $capabilities = DesiredCapabilities::chrome();
         $capabilities->setCapability(ChromeOptions::CAPABILITY, $options);
-        
-        $driver = ChromeDriver::start($capabilities);
+
+        $this->webDriver = RemoteWebDriver::create('https://www.google.com/', $capabilities);        
+        $this->webDriver->get();
         dd('ok');
         $filename = 'scraping.csv';
         $data = Urls::all();
