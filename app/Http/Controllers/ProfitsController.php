@@ -24,20 +24,10 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
-        // chrome option
-        $options = new ChromeOptions();
-        $options->addArguments([
-            'disable-infobars',
-            '--headless',
-            'window-size=1920,1600',
-            '--no-sandbox'
-        ]);
-
         $capabilities = DesiredCapabilities::chrome();
-        $capabilities->setCapability(ChromeOptions::CAPABILITY, $options);
 
-        $this->webDriver = RemoteWebDriver::create('https://www.google.com/', $capabilities);        
-        $this->webDriver->get();
+        $this->webDriver = RemoteWebDriver::create('https://localhost:4444/wd/hub', $capabilities);        
+        $this->webDriver->get('https://www.google.com/');
         dd('ok');
         $filename = 'scraping.csv';
         $data = Urls::all();
