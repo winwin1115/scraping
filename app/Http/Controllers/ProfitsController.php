@@ -26,7 +26,7 @@ class ProfitsController extends Controller
     {
         $capabilities = DesiredCapabilities::chrome();
 
-        $this->webDriver = RemoteWebDriver::create('https://localhost:4444/wd/hub', $capabilities);        
+        $this->webDriver = RemoteWebDriver::create('http://3.137.203.237:4444/wd/hub', $capabilities);        
         $this->webDriver->get('https://www.google.com/');
         dd('ok');
         $filename = 'scraping.csv';
