@@ -18,6 +18,7 @@ class ProfitsController extends Controller
 {
     protected $webDriver;
     private $final_data = [];
+    private $callback;
 
     public function index()
     {
@@ -146,7 +147,7 @@ class ProfitsController extends Controller
             };
         }
 
-        return response()->stream($callback, 200, $headers);
+        return response()->stream($this->callback, 200, $headers);
     }
 
     public function output($url)
