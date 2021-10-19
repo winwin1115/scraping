@@ -16,6 +16,7 @@ use Symfony\Component\HttpClient\HttpClient;
 class ProfitsController extends Controller
 {
     protected $webDriver;
+    private $final_data = [];
 
     public function index()
     {
@@ -56,13 +57,12 @@ class ProfitsController extends Controller
         $product_response = $client->request('GET', 'https://auctions.yahoo.co.jp/seller/rainbowjp1449?sid=rainbowjp1449&b=1&n=50&s1=cbids&o1=a&mode=1&p=%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3&auccat=&aq=-1&oq=&anchor=1&slider=');
 
         $result = '';
-        $data = [];
         $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result) {
             $output = $this->output($node->attr('href'));
             $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
-            array_push($this->data, $result);
+            array_push($this->final_data, $result);
         });
-        dd($this->data);
+        dd($this->final_data);
         // CSV Produce
         $filename = 'scraping.csv';
 
