@@ -74,12 +74,12 @@ class ProfitsController extends Controller
             "Expires" => "0"
         );
         $columns = array('Handle', 'Title', 'Body(HTMl)', 'Vendor', 'Tags', 'Published', 'Option1 Name', 'Option1 Value', 'Option2 Name', 'Option2 Value', 'Option3 Name', 'Option3 Vlaue', 'Variant SKU', 'Variant Vrams', 'Variant Inventory Tracker', 'Variant Inverntory Qty', 'Variant Inventory Policy', 'Variant Fullfillment Service', 'Variant Price', 'Variant Compare At Price', 'Variant Requires Shipping', 'Variant Taxable', 'Variant Barcode', 'Image Src', 'Image POosition', 'Image Alt Text', 'Gift Card', 'SEO Title', 'SEO Description', 'Google Shopping/Google Product Category', 'Google Shopping/Gender', 'Google Shopping/Age Group', 'Giigle Shopping/MPN', 'Google Shopping/AdWords Grouping', 'Google Shpping/AdWords Labels', 'Google Shopping/Condition', 'Google Shopping/Custom Product', 'Google Sjopping/Custom Label0', 'Google Shopping/Custom Label1', 'Google Shopping/Custom Label2', 'Google Shopping/Custom Label3', 'Google Shopping/Custom Label4', 'Variant Image', 'Variant Weight Unit', 'Variant Tax Code', 'Cost per item', 'Status', 'Standard Product Type', 'Custom Product Type');
-var_dump($final_data);
-        $callback = function() use($final_data, $columns) {
+
+        $callback = function() use($columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
-            foreach($final_data as $item) {
+            foreach($this->final_data as $item) {
                 $row['Handle'] = $item['handle'];
                 $row['Title'] = $item['title'];
                 dd($item['title']);
