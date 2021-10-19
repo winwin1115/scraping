@@ -69,6 +69,7 @@ class ProfitsController extends Controller
                 $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
                 array_push($this->final_data, $result);
             });
+            dd($this->final_data);
         }
 
         // CSV Produce
