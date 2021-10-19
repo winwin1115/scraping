@@ -24,11 +24,8 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
-        $capabilities = DesiredCapabilities::chrome();
-
-        $this->webDriver = RemoteWebDriver::create('http://3.137.203.237:4444/wd/hub', $capabilities);        
-        $this->webDriver->get('https://www.google.com/');
-        dd('ok');
+        $output = $this->output('https://page.auctions.yahoo.co.jp/jp/auction/k1012044210');
+        dd($output);
         $filename = 'scraping.csv';
         $data = Urls::all();
 
@@ -55,5 +52,41 @@ class ProfitsController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function output($url)
+    {
+        $ip = '127.0.0.1';
+
+		$headers = array(
+			'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+			'accept-language: en-US,en;q=0.9',
+			'cache-control: no-cache',
+			'pragma: no-cache',
+			'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+			'sec-ch-ua-mobile: ?0',
+			'sec-fetch-dest: document',
+			'sec-fetch-mode: navigate',
+			'sec-fetch-site: none',
+			'sec-fetch-user: ?1',
+			'upgrade-insecure-requests: 1',
+			"CLIENT-IP: {$ip}",
+			"X-FORWARDED-FOR: {$ip}"
+		);
+
+		$agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36';
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+		curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$output = curl_exec($ch);
+		curl_close($ch);
+
+        return $output;
     }
 }
