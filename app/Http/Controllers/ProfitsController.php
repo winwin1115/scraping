@@ -61,9 +61,8 @@ class ProfitsController extends Controller
             $output = $this->output($node->attr('href'));
             $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
             array_push($data, $result);
-            dd($data);
         });
-
+        dd($data);
         // CSV Produce
         $filename = 'scraping.csv';
 
