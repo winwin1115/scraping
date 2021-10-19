@@ -57,12 +57,12 @@ class ProfitsController extends Controller
 
         $result = '';
         $data = [];
-        $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result, $data) {
+        $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result) {
             $output = $this->output($node->attr('href'));
             $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
-            array_push($data, $result);
+            array_push($this->data, $result);
         });
-        dd($data);
+        dd($this->data);
         // CSV Produce
         $filename = 'scraping.csv';
 
