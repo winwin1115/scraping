@@ -21,7 +21,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="site_type">サイト名</label>
-                                    <select class="form-control ls-select2">
+                                    <select class="form-control ls-select2" name="site_type">
                                         <option value="0">すべて</option>
                                         <option value="1">楽天</option>
                                         <option value="2">ヤフオク</option>
@@ -33,8 +33,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="start_date">商品登録期間(から)</label>
                                     <div class="input-group">
-                                        <input type="text" id="dob" name="dob"
-                                               class="form-control required ls-datepicker" value="06/10/2017">
+                                        <input type="text" id="start_date" name="start_date" class="form-control required ls-datepicker" value="{{ date('m/d/Y') }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="icon-fa icon-fa-calendar"></i>
@@ -45,8 +44,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="end_date">商品登録期間(まで)</label>
                                     <div class="input-group">
-                                        <input type="text" id="dob" name="dob"
-                                               class="form-control required ls-datepicker" value="06/10/2017">
+                                        <input type="text" id="end_date" name="end_date" class="form-control required ls-datepicker" value="{{ date('m/d/Y') }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="icon-fa icon-fa-calendar"></i>
