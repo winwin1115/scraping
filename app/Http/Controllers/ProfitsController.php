@@ -71,7 +71,7 @@ class ProfitsController extends Controller
             });
         }
 
-        dd($this->final_data);
+        dd($final_data);
         // CSV Produce
         $filename = 'scraping.csv';
 
