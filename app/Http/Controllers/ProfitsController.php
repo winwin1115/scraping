@@ -56,13 +56,14 @@ class ProfitsController extends Controller
         $product_response = $client->request('GET', 'https://auctions.yahoo.co.jp/seller/rainbowjp1449?sid=rainbowjp1449&b=1&n=50&s1=cbids&o1=a&mode=1&p=%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3&auccat=&aq=-1&oq=&anchor=1&slider=');
 
         $result = '';
-
-        $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result) {
+        $data = [];
+        $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result, $data) {
             $output = $this->output($node->attr('href'));
             $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
+            array_push($data, $result);
+            dd($data);
         });
 
-        dd($result);
         // CSV Produce
         $filename = 'scraping.csv';
 
