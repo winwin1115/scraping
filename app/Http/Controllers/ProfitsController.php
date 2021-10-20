@@ -63,7 +63,7 @@ class ProfitsController extends Controller
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
-            foreach($this->final_data as $item) {
+            foreach($csv_data as $item) {
                 $row['Handle'] = $item['handle'];
                 $row['Title'] = $item['title'];
                 // $row['Body'] = $item['body'];
@@ -322,25 +322,6 @@ class ProfitsController extends Controller
 
     public function makeCsvData($site_url, $currency_rate, $profit_rate)
     {
-        // $httpClient = new Client();
-        // $client = new Client(HttpClient::create(array(
-        //     'headers' => array(
-        //         'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0', // will be forced using 'Symfony BrowserKit' in executing
-        //         'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        //         'Accept-Language' => 'en-US,en;q=0.5',
-        //         'Referer' => 'http://yourtarget.url/',
-        //         'Upgrade-Insecure-Requests' => '1',
-        //         'Save-Data' => 'on',
-        //         'Pragma' => 'no-cache',
-        //         'Cache-Control' => 'no-cache',
-        //     ),
-        // )));
-
-        // $result = '';
-
-        // $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0');
-        // $product_response = $client->request('GET', $site_url);
-
         $product = $this->output($site_url);
 
         $url_array = [];
@@ -366,11 +347,7 @@ class ProfitsController extends Controller
             $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
             array_push($this->final_data, $result);
         }
-        dd($this->final_data);
-        // $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result) {
-        //     $output = $this->output($node->attr('href'));
-        //     $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
-        //     array_push($this->final_data, $result);
-        // });
+        
+        return $this->final_data;
     }
 }
