@@ -202,7 +202,7 @@ class ProfitsController extends Controller
         }
         else
             $title = '';
-        
+        $data['title'] = $title;
         // $data['title'] = $this->translateTitle($title);
 
         // $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody"]//');
