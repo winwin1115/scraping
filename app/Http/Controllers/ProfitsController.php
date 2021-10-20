@@ -263,9 +263,11 @@ class ProfitsController extends Controller
         {
             foreach($barcode_temp as $item)
                 $data['variant_barcode'] = $item->data;
+            $data['variant_barcode'] = trim($data['variant_barcode']);
         }
-        $data['variant_barcode'] = trim($data['variant_barcode']);
-
+        else
+            $data['variant_barcode'] = '';
+        
         $image_src = '';
         $image_alt = '';
         $image_position = '';
