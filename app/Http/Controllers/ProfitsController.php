@@ -258,16 +258,18 @@ class ProfitsController extends Controller
         $data['variant_shipping'] = 'TRUE';
         $data['variant_texable'] = 'FALSE';
 
+        $data['variant_barcode'] = '';
+        $barcode = '';
         $barcode_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[last()]//tr[td/font/text() = "型番"]/td[2]/text()');
         if(!is_null($barcode_temp))
         {
             foreach($barcode_temp as $item)
-                $data['variant_barcode'] = $item->data;
-            $data['variant_barcode'] = trim($data['variant_barcode']);
+                $barcode = $item->data;
         }
         else
-            $data['variant_barcode'] = '';
-        
+            $barcode = '';
+        $data['variant_barcode'] = trim($barcode);
+
         $image_src = '';
         $image_alt = '';
         $image_position = '';
