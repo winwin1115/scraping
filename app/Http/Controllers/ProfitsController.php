@@ -26,7 +26,7 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
-        $this->translateTitle('即日発送可 良品 15インチ FUJITSU FMV LIFEBOOK A576/P Win11 Windows11 六世代i5 8G 500G office有 中古パソコン 税無');
+        // $this->translateTitle('即日発送可 良品 15インチ FUJITSU FMV LIFEBOOK A576/P Win11 Windows11 六世代i5 8G 500G office有 中古パソコン 税無');
         $currencys = Currencys::first();
         $profits = Profits::first();
 
@@ -169,7 +169,7 @@ class ProfitsController extends Controller
         return $output;
     }
 
-    public function makeDoc($output, $href, $currency_rate, $profit_rate)
+    public function makeDoc($output, $href, $eng_title, $currency_rate, $profit_rate)
     {
         $data = [];
 
@@ -185,10 +185,8 @@ class ProfitsController extends Controller
         if(!is_null($product_name_temp))
         {
             foreach($product_name_temp as $item)
-            {
-                // array_push($product_id, $item->getAttribute('data-ylk'));
                 array_push($product_name, $item->nodeValue);
-            }
+                
             $handle = '';
             for($i = 0; $i < 3; $i++)
             {
@@ -202,17 +200,7 @@ class ProfitsController extends Controller
         else
             $data['handle'] = '';
 
-        $title = '';
-        $title_temp = $pokemon_xpath->query('//div[@class="ProductTitle__title"]//h1[@class="ProductTitle__text"]');
-        if(!is_null($title_temp))
-        {
-            foreach($title_temp as $item)
-                $title = $item->nodeValue;
-        }
-        else
-            $title = '';
-        
-        $data['title'] = $this->translateTitle($title);
+        $data['title'] = $eng_title;
 
         // $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody"]//');
 
@@ -334,6 +322,11 @@ class ProfitsController extends Controller
 
     public function makeCsvData($site_url, $currency_rate, $profit_rate)
     {
+        $site_url = str_replace('auctions.yahoo.co.jp', 'auctions-yahoo-co-jp.translate.goog', $site_url);
+        $site_url = explode('?', $site_url)[0] . '?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en&' . explode('?', $site_url)[1];
+
+        $name_array = $this->tran_title($site_url);
+
         $product = $this->output($site_url);
 
         $url_array = [];
@@ -356,47 +349,69 @@ class ProfitsController extends Controller
         for($i = 0; $i < count($url_array); $i++)
         {
             $output = $this->output($url_array[$i]);
-            $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
+            $result = $this->makeDoc($output, $url_array[$i], $name_array[$i], $currency_rate, $profit_rate);
             array_push($this->final_data, $result);
         }
         
         return $this->final_data;
     }
 
-    public function translateTitle($title)
+    public function tran_title($url)
     {
-        $url = 'https://translate.google.com/?sl=auto&tl=en&text=';
-        $url_temp = rawurlencode($title);
-        $url .= $url_temp . "&op=translate";
-
         $output = $this->output($url);
-        $result = $this->makeTranslateDoc($output);
-    }
 
-    public function makeTranslateDoc($output)
-    {
         $pokemon_doc = new DOMDocument;
         libxml_use_internal_errors(true);
         $pokemon_doc->loadHTML($output);
         libxml_clear_errors();
 
-        // $product_id = [];
-        $english_title = '';
+        $name_array = [];
         $pokemon_xpath = new DOMXPath($pokemon_doc);
-        $title_temp = $pokemon_xpath->query('//span[@class="VIiyi"]');
-        dd($title_temp);
-        // $title_temp = $pokemon_xpath->query('//div[@class="J0lOec"]//span[@class="VIiyi"]//span[@class="JLqJ4b ChMk0b"]//span');
+        $title_temp = $pokemon_xpath->query('//div[@id="mIn"]//div[@id="AS1m3"]//div[@id="list01"]//div[@class="inner cf"]//div[@class="bd cf"]//div[@class="a cf"]//h3//a//font/font');
         if(!is_null($title_temp))
         {
             foreach($title_temp as $item)
-                // dd($item->attributes);
-            //     foreach($item->attributes as $attr)
-            //         var_dump($attr);
-            // exit();
-                $english_title = $item->nodeValue;
+                array_push($name_array, $item->nodeValue);
         }
-        else
-            $english_title = '';
-        dd($english_title);
+
+        return $name_array;
+    }
+
+    // public function translateTitle($title)
+    // {
+    //     // https://auctions-yahoo-co-jp.translate.goog/seller/rainbowjp1449?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en&sid=rainbowjp1449&b=1&n=50&s1=cbids&o1=a&mode=1&p=%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3&auccat&aq=-1&oq&anchor=1&slider
+    //     $url = 'https://translate.google.com/?sl=auto&tl=en&text=';
+    //     $url_temp = rawurlencode($title);
+    //     $url .= $url_temp . "&op=translate";
+
+    //     $output = $this->output($url);
+    //     $result = $this->makeTranslateDoc($output);
+    // }
+
+    // public function makeTranslateDoc($output)
+    // {
+    //     $pokemon_doc = new DOMDocument;
+    //     libxml_use_internal_errors(true);
+    //     $pokemon_doc->loadHTML($output);
+    //     libxml_clear_errors();
+
+    //     // $product_id = [];
+    //     $english_title = '';
+    //     $pokemon_xpath = new DOMXPath($pokemon_doc);
+    //     $title_temp = $pokemon_xpath->query('//span[@class="VIiyi"]');
+    //     dd($title_temp);
+    //     // $title_temp = $pokemon_xpath->query('//div[@class="J0lOec"]//span[@class="VIiyi"]//span[@class="JLqJ4b ChMk0b"]//span');
+    //     if(!is_null($title_temp))
+    //     {
+    //         foreach($title_temp as $item)
+    //             // dd($item->attributes);
+    //         //     foreach($item->attributes as $attr)
+    //         //         var_dump($attr);
+    //         // exit();
+    //             $english_title = $item->nodeValue;
+    //     }
+    //     else
+    //         $english_title = '';
+    //     dd($english_title);
     }
 }
