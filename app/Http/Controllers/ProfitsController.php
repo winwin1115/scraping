@@ -57,7 +57,7 @@ class ProfitsController extends Controller
             "Cache-Control" => "mult-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         );
-        $columns = array('Handle', 'Title', 'Body(HTMl)', 'Vendor', 'Tags', 'Published', 'Option1 Name', 'Option1 Value', 'Option2 Name', 'Option2 Value', 'Option3 Name', 'Option3 Vlaue', 'Variant SKU', 'Variant Vrams', 'Variant Inventory Tracker', 'Variant Inverntory Qty', 'Variant Inventory Policy', 'Variant Fullfillment Service', 'Variant Price', 'Variant Compare At Price', 'Variant Requires Shipping', 'Variant Taxable', 'Variant Barcode', 'Image Src', 'Image POosition', 'Image Alt Text', 'Gift Card', 'SEO Title', 'SEO Description', 'Google Shopping/Google Product Category', 'Google Shopping/Gender', 'Google Shopping/Age Group', 'Giigle Shopping/MPN', 'Google Shopping/AdWords Grouping', 'Google Shpping/AdWords Labels', 'Google Shopping/Condition', 'Google Shopping/Custom Product', 'Google Sjopping/Custom Label0', 'Google Shopping/Custom Label1', 'Google Shopping/Custom Label2', 'Google Shopping/Custom Label3', 'Google Shopping/Custom Label4', 'Variant Image', 'Variant Weight Unit', 'Variant Tax Code', 'Cost per item', 'Status', 'Standard Product Type', 'Custom Product Type');
+        $columns = array('Handle', 'Title', 'Body(HTMl)', 'Vendor', 'Type', 'Tags', 'Published', 'Option1 Name', 'Option1 Value', 'Option2 Name', 'Option2 Value', 'Option3 Name', 'Option3 Vlaue', 'Variant SKU', 'Variant Grams', 'Variant Inventory Tracker', 'Variant Inverntory Qty', 'Variant Inventory Policy', 'Variant Fullfillment Service', 'Variant Price', 'Variant Compare At Price', 'Variant Requires Shipping', 'Variant Taxable', 'Variant Barcode', 'Image Src', 'Image POosition', 'Image Alt Text', 'Gift Card', 'SEO Title', 'SEO Description', 'Google Shopping/Google Product Category', 'Google Shopping/Gender', 'Google Shopping/Age Group', 'Giigle Shopping/MPN', 'Google Shopping/AdWords Grouping', 'Google Shpping/AdWords Labels', 'Google Shopping/Condition', 'Google Shopping/Custom Product', 'Google Sjopping/Custom Label0', 'Google Shopping/Custom Label1', 'Google Shopping/Custom Label2', 'Google Shopping/Custom Label3', 'Google Shopping/Custom Label4', 'Variant Image', 'Variant Weight Unit', 'Variant Tax Code', 'Cost per item', 'Status', 'Standard Product Type', 'Custom Product Type');
 
         $callback = function() use($csv_data, $columns) {
             $file = fopen('php://output', 'w');
@@ -261,13 +261,13 @@ class ProfitsController extends Controller
             {
                 if($index == count($image_src_temp)-1)
                 {
-                    $image_src .= $item->attr('src');
-                    $image_alt .= $item->attr('alt');
+                    $image_src .= $item->getAttribute('src');
+                    $image_alt .= $item->getAttribute('alt');
                 }
                 else
                 {
-                    $image_src .= $item->attr('src') . ', ';
-                    $image_alt .= $item->attr('alt') . ', ';
+                    $image_src .= $item->getAttribute('src') . ', ';
+                    $image_alt .= $item->getAttribute('alt') . ', ';
                 }
             }
             $data['image_src'] = $image_src;
@@ -286,9 +286,9 @@ class ProfitsController extends Controller
             foreach($image_position_temp as $index => $item)
             {
                 if($index == count($image_position_temp)-1)
-                    $image_position .= $item->attr('data-rapid_p');
+                    $image_position .= $item->getAttribute('data-rapid_p');
                 else
-                    $image_position .= $item->attr('data-rapid_p') . ', ';
+                    $image_position .= $item->getAttribute('data-rapid_p') . ', ';
             }
             $data['image_position'] = $image_position;
         }
