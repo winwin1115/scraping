@@ -284,7 +284,7 @@ class ProfitsController extends Controller
         }
 
         $image_position = '';
-        $image_position_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer"]//div[@class="ProductImage__indicator"]//ul[@class="ProductImage__thumbnails"]//li[@class="ProductImage__thumbnail"]//a');
+        $image_position_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer js-imageGallery-footer"]//div[@class="ProductImage__indicator js-imageGallery-indicator"]//ul[@class="ProductImage__thumbnails"]//li//a');
         if(!is_null($image_position_temp))
         {
             foreach($image_position_temp as $index => $item)
