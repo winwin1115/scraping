@@ -205,7 +205,14 @@ class ProfitsController extends Controller
         $data['title'] = $title;
         // $data['title'] = $this->translateTitle($title);
 
-        // $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody"]//');
+        $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]');
+        if(!is_null($body_temp))
+        {
+            foreach($body_temp as $item)
+                $data['body'] = $item->C14N();
+        }
+        else
+            $data['body'] = '';
 
         $data['vendor'] = 'Eight kNot Japan Co., Ltd';
         $data['type'] = 'Personal Computers';
@@ -251,9 +258,13 @@ class ProfitsController extends Controller
         $data['variant_shipping'] = 'TRUE';
         $data['variant_texable'] = 'FALSE';
 
-        // $barcode_temp = $pokemon_xpath->query('//div[]');
-        // $data['variant_barcode'] = $item->nodeValue;
-        $data['variant_barcode'] = '';
+        $barcode_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[last()]//tr[td/font/text() = "型番"]/td[2]/text()');
+        if(!is_null($barcode_temp))
+        {
+            foreach($barcode_temp as $item)
+                $data['variant_barcode'] = $item->data;
+        }
+        $data['variant_barcode'] = trim($data['variant_barcode']);
 
         $image_src = '';
         $image_alt = '';
@@ -274,7 +285,7 @@ class ProfitsController extends Controller
                 {
                     $image_src .= $item->getAttribute('src') . ', ';
                     $image_alt .= $item->getAttribute('alt') . ', ';
-                    $image_position .= $index . ', ';
+                    $image_position .= $index + 1 . ', ';
                 }
             }
             $data['image_src'] = $image_src;
