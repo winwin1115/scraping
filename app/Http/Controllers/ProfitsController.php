@@ -41,37 +41,12 @@ class ProfitsController extends Controller
 
         $urls = Urls::where(['site_type' => $request->site_type])->whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
 
-
-        //HTTP Client Url
-        $httpClient = new Client();
-        $client = new Client(HttpClient::create(array(
-            'headers' => array(
-                'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0', // will be forced using 'Symfony BrowserKit' in executing
-                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Accept-Language' => 'en-US,en;q=0.5',
-                'Referer' => 'http://yourtarget.url/',
-                'Upgrade-Insecure-Requests' => '1',
-                'Save-Data' => 'on',
-                'Pragma' => 'no-cache',
-                'Cache-Control' => 'no-cache',
-            ),
-        )));
-
-        $result = '';
-
-        $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0');
         for($k = 0; $k < count($urls); $k++)
         {
-            $product_response = $client->request('GET', $urls[$k]['site_url']);
-
-            $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result) {
-                $output = $this->output($node->attr('href'));
-                $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
-                array_push($this->final_data, $result);
-            });
+            $csv_data = $this->makeCsvData($urls[$k]['site_url'], $currency_rate, $profit_rate);
+            
         }
 
-        dd($final_data);
         // CSV Produce
         $filename = 'scraping.csv';
 
@@ -343,5 +318,59 @@ class ProfitsController extends Controller
         $data['custom_product_type'] = 'Computer';
 
         return $data;
+    }
+
+    public function makeCsvData($site_url, $currency_rate, $profit_rate)
+    {
+        // $httpClient = new Client();
+        // $client = new Client(HttpClient::create(array(
+        //     'headers' => array(
+        //         'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0', // will be forced using 'Symfony BrowserKit' in executing
+        //         'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        //         'Accept-Language' => 'en-US,en;q=0.5',
+        //         'Referer' => 'http://yourtarget.url/',
+        //         'Upgrade-Insecure-Requests' => '1',
+        //         'Save-Data' => 'on',
+        //         'Pragma' => 'no-cache',
+        //         'Cache-Control' => 'no-cache',
+        //     ),
+        // )));
+
+        // $result = '';
+
+        // $client->setServerParameter('HTTP_USER_AGENT', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0');
+        // $product_response = $client->request('GET', $site_url);
+
+        $product = $this->output($site_url);
+
+        $url_array = [];
+
+        $pokemon_doc = new DOMDocument;
+        libxml_use_internal_errors(true);
+        $pokemon_doc->loadHTML($product);
+        libxml_clear_errors();
+
+        $pokemon_xpath = new DOMXPath($pokemon_doc);
+        $url_temp = $pokemon_xpath->query('//div[@id="mIn"]//div[@id="AS1m3"]//div[@id="list01"]//div[@class="inner cf"]//div[@class="bd cf"]//div[@class="a cf"]//h3//a');
+        if(!is_null($url_temp))
+        {
+            foreach($url_temp as $item)
+                array_push($url_array, $item->getAttribute('href'));
+        }
+        else
+            return;
+        
+        for($i = 0; $i < count($url_array); $i++)
+        {
+            $output = $this->output($url_array[$i]);
+            $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
+            array_push($this->final_data, $result);
+        }
+        dd($this->final_data);
+        // $product_response->filter('#mIn #AS1m3 .inner.cf .bd.cf .a.cf h3 a')->each(function ($node) use ($currency_rate, $profit_rate, $httpClient, $result) {
+        //     $output = $this->output($node->attr('href'));
+        //     $result = $this->makeDoc($output, $node->attr('href'), $currency_rate, $profit_rate);
+        //     array_push($this->final_data, $result);
+        // });
     }
 }
