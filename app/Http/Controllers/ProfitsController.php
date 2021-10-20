@@ -86,7 +86,7 @@ class ProfitsController extends Controller
                 $row['variant_fullfillment_service'] = $item['variant_fullfillment_service'];
                 $row['variant_price'] = $item['variant_price'];
                 $row['variant_compare_price'] = $item['variant_compare_price'];
-                $row['variant_shooping'] = $item['variant_shooping'];
+                $row['variant_shipping'] = $item['variant_shipping'];
                 $row['variant_texable'] = $item['variant_texable'];
                 $row['variant_barcode'] = $item['variant_barcode'];
                 $row['image_src'] = $item['image_src'];
@@ -116,7 +116,7 @@ class ProfitsController extends Controller
                 $row['standard_product_type'] = $item['standard_product_type'];
                 $row['custom_product_type'] = $item['custom_product_type'];
 
-                fputcsv($file, array($row['Handle'], $row['Title'], '', $row['vendor'], $row['type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shooping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status'], $row['standard_product_type'], $row['custom_product_type']));
+                fputcsv($file, array($row['Handle'], $row['Title'], '', $row['vendor'], $row['type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shipping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status'], $row['standard_product_type'], $row['custom_product_type']));
             }
 
             fclose($file);
@@ -210,7 +210,7 @@ class ProfitsController extends Controller
         $data['vendor'] = 'Eight kNot Japan Co., Ltd';
         $data['type'] = 'Personal Computers';
         $data['tags'] = 'Personal Computers and Peripherals';
-        $data['published'] = true;
+        $data['published'] = 'TRUE';
         $data['option1_name'] = 'Title';
         $data['option1_value'] = 'Default Title';
         $data['option2_name'] = '';
@@ -248,8 +248,8 @@ class ProfitsController extends Controller
             $data['variant_compare_price'] = '';
         }
         
-        $data['variant_shooping'] = true;
-        $data['variant_texable'] = false;
+        $data['variant_shipping'] = 'TRUE';
+        $data['variant_texable'] = 'FALSE';
 
         // $barcode_temp = $pokemon_xpath->query('//div[]');
         // $data['variant_barcode'] = $item->nodeValue;
@@ -257,7 +257,8 @@ class ProfitsController extends Controller
 
         $image_src = '';
         $image_alt = '';
-        $image_src_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer"]//div[@class="ProductImage__indicator"]//ul[@class="ProductImage__thumbnails"]//li[@class="ProductImage__thumbnail"]//a//img');
+        $image_src_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer js-imageGallery-footer"]//div[@class="ProductImage__indicator js-imageGallery-indicator"]//ul[@class="ProductImage__thumbnails"]//li//a//img');
+
         if(!is_null($image_src_temp))
         {
             foreach($image_src_temp as $index => $item)
@@ -298,7 +299,7 @@ class ProfitsController extends Controller
         else
             $data['image_position'] = '';
 
-        $data['gift_card'] = false;
+        $data['gift_card'] = 'FALSE';
         $data['google_product_cateory'] = '';
         $data['gender'] = '';
         $data['age_group'] = '';
