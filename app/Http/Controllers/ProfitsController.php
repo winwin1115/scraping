@@ -413,5 +413,5 @@ class ProfitsController extends Controller
     //     else
     //         $english_title = '';
     //     dd($english_title);
-    }
+    // }
 }
