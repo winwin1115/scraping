@@ -58,7 +58,7 @@ class ProfitsController extends Controller
             "Cache-Control" => "mult-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         );
-        $columns = array('Handle', 'Title', 'Body(HTMl)', 'Vendor', 'Type', 'Tags', 'Published', 'Option1 Name', 'Option1 Value', 'Option2 Name', 'Option2 Value', 'Option3 Name', 'Option3 Vlaue', 'Variant SKU', 'Variant Grams', 'Variant Inventory Tracker', 'Variant Inverntory Qty', 'Variant Inventory Policy', 'Variant Fullfillment Service', 'Variant Price', 'Variant Compare At Price', 'Variant Requires Shipping', 'Variant Taxable', 'Variant Barcode', 'Image Src', 'Image POosition', 'Image Alt Text', 'Gift Card', 'SEO Title', 'SEO Description', 'Google Shopping/Google Product Category', 'Google Shopping/Gender', 'Google Shopping/Age Group', 'Giigle Shopping/MPN', 'Google Shopping/AdWords Grouping', 'Google Shpping/AdWords Labels', 'Google Shopping/Condition', 'Google Shopping/Custom Product', 'Google Sjopping/Custom Label0', 'Google Shopping/Custom Label1', 'Google Shopping/Custom Label2', 'Google Shopping/Custom Label3', 'Google Shopping/Custom Label4', 'Variant Image', 'Variant Weight Unit', 'Variant Tax Code', 'Cost per item', 'Status', 'Standard Product Type', 'Custom Product Type');
+        $columns = array('Handle', 'Title', 'Body(HTMl)', 'Vendor', 'Type', 'Tags', 'Published', 'Option1 Name', 'Option1 Value', 'Option2 Name', 'Option2 Value', 'Option3 Name', 'Option3 Vlaue', 'Variant SKU', 'Variant Grams', 'Variant Inventory Tracker', 'Variant Inverntory Qty', 'Variant Inventory Policy', 'Variant Fullfillment Service', 'Variant Price', 'Variant Compare At Price', 'Variant Requires Shipping', 'Variant Taxable', 'Variant Barcode', 'Image Src', 'Image Position', 'Image Alt Text', 'Gift Card', 'SEO Title', 'SEO Description', 'Google Shopping/Google Product Category', 'Google Shopping/Gender', 'Google Shopping/Age Group', 'Giigle Shopping/MPN', 'Google Shopping/AdWords Grouping', 'Google Shpping/AdWords Labels', 'Google Shopping/Condition', 'Google Shopping/Custom Product', 'Google Sjopping/Custom Label0', 'Google Shopping/Custom Label1', 'Google Shopping/Custom Label2', 'Google Shopping/Custom Label3', 'Google Shopping/Custom Label4', 'Variant Image', 'Variant Weight Unit', 'Variant Tax Code', 'Cost per item', 'Status', 'Standard Product Type', 'Custom Product Type');
 
         $callback = function() use($csv_data, $columns) {
             $file = fopen('php://output', 'w');
@@ -149,19 +149,27 @@ class ProfitsController extends Controller
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+        sleep(10);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        sleep(10);
 		$output = curl_exec($ch);
+        sleep(10);
 		curl_close($ch);
-        
+        sleep(10);
         return $output;
     }
 
-    public function makeDoc($output, $href, $eng_title, $currency_rate, $profit_rate)
+    public function makeDoc($output, $href, $currency_rate, $profit_rate)
     {
         $data = [];
 
@@ -177,8 +185,10 @@ class ProfitsController extends Controller
         if(!is_null($product_name_temp))
         {
             foreach($product_name_temp as $item)
+            {
+                // array_push($product_id, $item->getAttribute('data-ylk'));
                 array_push($product_name, $item->nodeValue);
-                
+            }
             $handle = '';
             for($i = 0; $i < 3; $i++)
             {
@@ -192,7 +202,17 @@ class ProfitsController extends Controller
         else
             $data['handle'] = '';
 
-        $data['title'] = $eng_title;
+        $title = '';
+        $title_temp = $pokemon_xpath->query('//div[@class="ProductTitle__title"]//h1[@class="ProductTitle__text"]');
+        if(!is_null($title_temp))
+        {
+            foreach($title_temp as $item)
+                $title = $item->nodeValue;
+        }
+        else
+            $title = '';
+        
+        $data['title'] = $this->translateTitle($title);
 
         // $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody"]//');
 
@@ -314,11 +334,6 @@ class ProfitsController extends Controller
 
     public function makeCsvData($site_url, $currency_rate, $profit_rate)
     {
-        $site_url = str_replace('auctions.yahoo.co.jp', 'auctions-yahoo-co-jp.translate.goog', $site_url);
-        $site_url = explode('?', $site_url)[0] . '?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en&' . explode('?', $site_url)[1];
-
-        $name_array = $this->tran_title($site_url);
-
         $product = $this->output($site_url);
 
         $url_array = [];
@@ -341,69 +356,47 @@ class ProfitsController extends Controller
         for($i = 0; $i < count($url_array); $i++)
         {
             $output = $this->output($url_array[$i]);
-            $result = $this->makeDoc($output, $url_array[$i], $name_array[$i], $currency_rate, $profit_rate);
+            $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
             array_push($this->final_data, $result);
         }
         
         return $this->final_data;
     }
 
-    public function tran_title($url)
+    public function translateTitle($title)
     {
-        $output = $this->output($url);
+        $url = 'https://translate.google.com/?sl=auto&tl=en&text=';
+        $url_temp = rawurlencode($title);
+        $url .= $url_temp . "&op=translate";
 
+        $output = $this->output($url);
+        $result = $this->makeTranslateDoc($output);
+    }
+
+    public function makeTranslateDoc($output)
+    {
         $pokemon_doc = new DOMDocument;
         libxml_use_internal_errors(true);
         $pokemon_doc->loadHTML($output);
         libxml_clear_errors();
 
-        $name_array = [];
+        // $product_id = [];
+        $english_title = '';
         $pokemon_xpath = new DOMXPath($pokemon_doc);
-        $title_temp = $pokemon_xpath->query('//div[@id="mIn"]//div[@id="AS1m3"]//div[@id="list01"]//div[@class="inner cf"]//div[@class="bd cf"]//div[@class="a cf"]//h3//a//font/font');
+        $title_temp = $pokemon_xpath->query('//div[@class="VIiyi"]');
+        // dd($title_temp);
+        // $title_temp = $pokemon_xpath->query('//div[@class="J0lOec"]//span[@class="VIiyi"]//span[@class="JLqJ4b ChMk0b"]//span');
         if(!is_null($title_temp))
         {
             foreach($title_temp as $item)
-                array_push($name_array, $item->nodeValue);
+                // dd($item->attributes);
+            //     foreach($item->attributes as $attr)
+            //         var_dump($attr);
+            // exit();
+                $english_title = $item->nodeValue;
         }
-
-        return $name_array;
+        else
+            $english_title = '';
+        dd($english_title);
     }
-
-    // public function translateTitle($title)
-    // {
-    //     // https://auctions-yahoo-co-jp.translate.goog/seller/rainbowjp1449?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en&sid=rainbowjp1449&b=1&n=50&s1=cbids&o1=a&mode=1&p=%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3&auccat&aq=-1&oq&anchor=1&slider
-    //     $url = 'https://translate.google.com/?sl=auto&tl=en&text=';
-    //     $url_temp = rawurlencode($title);
-    //     $url .= $url_temp . "&op=translate";
-
-    //     $output = $this->output($url);
-    //     $result = $this->makeTranslateDoc($output);
-    // }
-
-    // public function makeTranslateDoc($output)
-    // {
-    //     $pokemon_doc = new DOMDocument;
-    //     libxml_use_internal_errors(true);
-    //     $pokemon_doc->loadHTML($output);
-    //     libxml_clear_errors();
-
-    //     // $product_id = [];
-    //     $english_title = '';
-    //     $pokemon_xpath = new DOMXPath($pokemon_doc);
-    //     $title_temp = $pokemon_xpath->query('//span[@class="VIiyi"]');
-    //     dd($title_temp);
-    //     // $title_temp = $pokemon_xpath->query('//div[@class="J0lOec"]//span[@class="VIiyi"]//span[@class="JLqJ4b ChMk0b"]//span');
-    //     if(!is_null($title_temp))
-    //     {
-    //         foreach($title_temp as $item)
-    //             // dd($item->attributes);
-    //         //     foreach($item->attributes as $attr)
-    //         //         var_dump($attr);
-    //         // exit();
-    //             $english_title = $item->nodeValue;
-    //     }
-    //     else
-    //         $english_title = '';
-    //     dd($english_title);
-    // }
 }
