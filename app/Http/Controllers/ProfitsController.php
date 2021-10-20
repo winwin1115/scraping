@@ -26,6 +26,7 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
+        $this->translateTitle('即日発送可 良品 15インチ FUJITSU FMV LIFEBOOK A576/P Win11 Windows11 六世代i5 8G 500G office有 中古パソコン 税無');
         $currencys = Currencys::first();
         $profits = Profits::first();
 
@@ -148,15 +149,23 @@ class ProfitsController extends Controller
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+        sleep(10);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        sleep(10);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        sleep(10);
 		$output = curl_exec($ch);
+        sleep(10);
 		curl_close($ch);
-
+        sleep(10);
         return $output;
     }
 
@@ -193,14 +202,17 @@ class ProfitsController extends Controller
         else
             $data['handle'] = '';
 
+        $title = '';
         $title_temp = $pokemon_xpath->query('//div[@class="ProductTitle__title"]//h1[@class="ProductTitle__text"]');
         if(!is_null($title_temp))
         {
             foreach($title_temp as $item)
-                $data['title'] = $item->nodeValue;
+                $title = $item->nodeValue;
         }
         else
-            $data['title'] = '';
+            $title = '';
+        
+        $data['title'] = $this->translateTitle($title);
 
         // $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody"]//');
 
@@ -349,5 +361,42 @@ class ProfitsController extends Controller
         }
         
         return $this->final_data;
+    }
+
+    public function translateTitle($title)
+    {
+        $url = 'https://translate.google.com/?sl=auto&tl=en&text=';
+        $url_temp = rawurlencode($title);
+        $url .= $url_temp . "&op=translate";
+
+        $output = $this->output($url);
+        $result = $this->makeTranslateDoc($output);
+    }
+
+    public function makeTranslateDoc($output)
+    {
+        $pokemon_doc = new DOMDocument;
+        libxml_use_internal_errors(true);
+        $pokemon_doc->loadHTML($output);
+        libxml_clear_errors();
+
+        // $product_id = [];
+        $english_title = '';
+        $pokemon_xpath = new DOMXPath($pokemon_doc);
+        $title_temp = $pokemon_xpath->query('//span[@class="VIiyi"]');
+        dd($title_temp);
+        // $title_temp = $pokemon_xpath->query('//div[@class="J0lOec"]//span[@class="VIiyi"]//span[@class="JLqJ4b ChMk0b"]//span');
+        if(!is_null($title_temp))
+        {
+            foreach($title_temp as $item)
+                // dd($item->attributes);
+            //     foreach($item->attributes as $attr)
+            //         var_dump($attr);
+            // exit();
+                $english_title = $item->nodeValue;
+        }
+        else
+            $english_title = '';
+        dd($english_title);
     }
 }
