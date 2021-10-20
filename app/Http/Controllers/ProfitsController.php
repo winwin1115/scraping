@@ -149,23 +149,15 @@ class ProfitsController extends Controller
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
-        sleep(10);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        sleep(10);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        sleep(10);
 		curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-        sleep(10);
 		curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
-        sleep(10);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        sleep(10);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        sleep(10);
 		$output = curl_exec($ch);
-        sleep(10);
 		curl_close($ch);
-        sleep(10);
+        
         return $output;
     }
 
