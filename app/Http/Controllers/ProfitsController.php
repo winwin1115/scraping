@@ -67,7 +67,7 @@ class ProfitsController extends Controller
             foreach($csv_data as $item) {
                 $row['Handle'] = $item['handle'];
                 $row['Title'] = $item['title'];
-                // $row['Body'] = $item['body'];
+                $row['Body'] = $item['body'];
                 $row['vendor'] = $item['vendor'];
                 $row['type'] = $item['type'];
                 $row['tags'] = $item['tags'];
@@ -116,7 +116,7 @@ class ProfitsController extends Controller
                 $row['standard_product_type'] = $item['standard_product_type'];
                 $row['custom_product_type'] = $item['custom_product_type'];
 
-                fputcsv($file, array($row['Handle'], $row['Title'], '', $row['vendor'], $row['type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shipping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status'], $row['standard_product_type'], $row['custom_product_type']));
+                fputcsv($file, array($row['Handle'], $row['Title'], $row['Body'], $row['vendor'], $row['type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shipping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status'], $row['standard_product_type'], $row['custom_product_type']));
             }
 
             fclose($file);
