@@ -257,6 +257,7 @@ class ProfitsController extends Controller
 
         $image_src = '';
         $image_alt = '';
+        $image_position = '';
         $image_src_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer js-imageGallery-footer"]//div[@class="ProductImage__indicator js-imageGallery-indicator"]//ul[@class="ProductImage__thumbnails"]//li//a//img');
 
         if(!is_null($image_src_temp))
@@ -267,37 +268,26 @@ class ProfitsController extends Controller
                 {
                     $image_src .= $item->getAttribute('src');
                     $image_alt .= $item->getAttribute('alt');
+                    $image_position .= $index + 1;
                 }
                 else
                 {
                     $image_src .= $item->getAttribute('src') . ', ';
                     $image_alt .= $item->getAttribute('alt') . ', ';
+                    $image_position .= $index . ', ';
                 }
             }
             $data['image_src'] = $image_src;
             $data['image_alt'] = $image_alt;
+            $data['image_position'] = $image_position;
         }
         else
         {
             $data['image_src'] = '';
             $data['image_alt'] = '';   
+            $data['image_position'] = '';
         }
 
-        $image_position = '';
-        $image_position_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer js-imageGallery-footer"]//div[@class="ProductImage__indicator js-imageGallery-indicator"]//ul[@class="ProductImage__thumbnails"]//li//a');
-        if(!is_null($image_position_temp))
-        {
-            foreach($image_position_temp as $index => $item)
-            {
-                if($index == count($image_position_temp)-1)
-                    $image_position .= $item->getAttribute('data-rapid_p');
-                else
-                    $image_position .= $item->getAttribute('data-rapid_p') . ', ';
-            }
-            $data['image_position'] = $image_position;
-        }
-        else
-            $data['image_position'] = '';
 
         $data['gift_card'] = 'FALSE';
         $data['google_product_cateory'] = '';
