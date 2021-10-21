@@ -39,7 +39,10 @@ class ProfitsController extends Controller
         else
             $profit_rate = '';
 
-        $urls = Urls::where(['site_type' => $request->site_type])->whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
+        if($request->site_type != '0')
+            $urls = Urls::where(['site_type' => $request->site_type])->whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
+        else
+            $urls = Urls::whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
 
         $csv_data = [];
         for($k = 0; $k < count($urls); $k++)
