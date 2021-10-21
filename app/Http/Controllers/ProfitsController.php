@@ -374,8 +374,6 @@ class ProfitsController extends Controller
     {
         $host = "http://translate.google.com/translate_a/single?client=webapp&sl=auto&tl=en&hl=en&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=gt&pc=1&otf=1&ssel=0&tsel=0&kc=1&tk=&q=".urlencode( $title );
 
-        header('Content-Type: application/json; charset=utf-8');
-
         $curl = curl_init();
 		
         curl_setopt_array($curl, array(
