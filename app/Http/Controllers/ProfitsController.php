@@ -26,7 +26,6 @@ class ProfitsController extends Controller
 
     public function putCsv(Request $request)
     {
-        // $this->translateTitle('即日発送可 良品 15インチ FUJITSU FMV LIFEBOOK A576/P Win11 Windows11 六世代i5 8G 500G office有 中古パソコン 税無');
         $currencys = Currencys::first();
         $profits = Profits::first();
 
@@ -134,7 +133,7 @@ class ProfitsController extends Controller
 			'accept-language: en-US,en;q=0.9',
 			'cache-control: no-cache',
 			'pragma: no-cache',
-			'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+			'sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="94", "Chromium";v="94"',
 			'sec-ch-ua-mobile: ?0',
 			'sec-fetch-dest: document',
 			'sec-fetch-mode: navigate',
@@ -145,7 +144,7 @@ class ProfitsController extends Controller
 			"X-FORWARDED-FOR: {$ip}"
 		);
 
-		$agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36';
+		$agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36';
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -202,8 +201,8 @@ class ProfitsController extends Controller
         }
         else
             $title = '';
-        $data['title'] = $title;
-        // $data['title'] = $this->translateTitle($title);
+        
+        $data['title'] = $this->translateTitle($title);
 
         $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]');
         if(!is_null($body_temp))
@@ -362,38 +361,46 @@ class ProfitsController extends Controller
 
     public function translateTitle($title)
     {
-        $url = 'https://translate.google.com/?sl=auto&tl=en&text=';
-        $url_temp = rawurlencode($title);
-        $url .= $url_temp . "&op=translate";
-
-        $output = $this->output($url);
-        $result = $this->makeTranslateDoc($output);
+        $output = $this->translateOutput($title);
+        $eng_title = explode('"', $output)[1];
+        return $eng_title;
     }
 
-    public function makeTranslateDoc($output)
+    public function translateOutput($title)
     {
-        $pokemon_doc = new DOMDocument;
-        libxml_use_internal_errors(true);
-        $pokemon_doc->loadHTML($output);
-        libxml_clear_errors();
+        $host = "http://translate.google.com/translate_a/single?client=webapp&sl=auto&tl=en&hl=en&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=gt&pc=1&otf=1&ssel=0&tsel=0&kc=1&tk=&q=".urlencode( $title );
 
-        // $product_id = [];
-        $english_title = '';
-        $pokemon_xpath = new DOMXPath($pokemon_doc);
-        $title_temp = $pokemon_xpath->query('//div[@class="VIiyi"]');
-        // dd($title_temp);
-        // $title_temp = $pokemon_xpath->query('//div[@class="J0lOec"]//span[@class="VIiyi"]//span[@class="JLqJ4b ChMk0b"]//span');
-        if(!is_null($title_temp))
-        {
-            foreach($title_temp as $item)
-                // dd($item->attributes);
-            //     foreach($item->attributes as $attr)
-            //         var_dump($attr);
-            // exit();
-                $english_title = $item->nodeValue;
-        }
+        header('Content-Type: application/json; charset=utf-8');
+
+        $curl = curl_init();
+		
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $host,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Accept: */*",
+                "Accept-Encoding: gzip, deflate",
+                "Cache-Control: no-cache",
+                "Connection: keep-alive",
+                "Cookie: NID=190=NY1ox5yIwHWgl-YC23LlJa8mn9_tWoiLRHJGpd8-RMEJsnh-jrF_cOvMEWqSSsR0J7WSrvhXF-_QqJpJ1s75Ymc76YSqXjS9NxXXnQKSDPmVySE0zNlzrVLQqK3IrmTa-et4Bu-8peiwE9jGnv4QFFjgGuxD5E0Mwbe0bzCvLiU",
+                "Host: translate.google.com",
+                "Postman-Token: b8b0ae52-b3c2-479e-9c4d-7e73e0540fb8,b70b881c-dcd6-4d23-a9f3-0bd7eeff91e6",
+                "User-Agent: PostmanRuntime/7.19.0",
+                "cache-control: no-cache"
+            ),
+        ));
+
+		$output = utf8_decode(curl_exec($curl));
+        $err = curl_error($curl);
+		curl_close($curl);
+        if($err)
+            echo 'Curl Error #:' . $err;
         else
-            $english_title = '';
-        dd($english_title);
+            return $output;
     }
 }
