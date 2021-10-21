@@ -39,7 +39,10 @@ class ProfitsController extends Controller
         else
             $profit_rate = '';
 
-        $urls = Urls::where(['site_type' => $request->site_type])->whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
+        if($request->site_type != '0')
+            $urls = Urls::where(['site_type' => $request->site_type])->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
+        else
+            $urls = Urls::where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
 
         $csv_data = [];
         for($k = 0; $k < count($urls); $k++)
@@ -66,7 +69,8 @@ class ProfitsController extends Controller
             foreach($csv_data as $item) {
                 $row['Handle'] = $item['handle'];
                 $row['Title'] = $item['title'];
-                $row['Body'] = $item['body'];
+                if($item['body'])
+                    $row['Body'] = $item['body'];
                 $row['vendor'] = $item['vendor'];
                 $row['type'] = $item['type'];
                 $row['tags'] = $item['tags'];
@@ -362,7 +366,8 @@ class ProfitsController extends Controller
     public function translateTitle($title)
     {
         $output = $this->translateOutput($title);
-        return explode('"', $output)[1];
+        $eng_title = explode('"', $output)[1];
+        return $eng_title;
     }
 
     public function translateOutput($title)
