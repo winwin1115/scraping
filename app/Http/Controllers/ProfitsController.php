@@ -39,10 +39,7 @@ class ProfitsController extends Controller
         else
             $profit_rate = '';
 
-        if($request->site_type != '0')
-            $urls = Urls::where(['site_type' => $request->site_type])->whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
-        else
-            $urls = Urls::whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
+        $urls = Urls::where(['site_type' => $request->site_type])->whereBetween('created_at', [date('Y-m-d', strtotime($request->start_date)), date('Y-m-d', strtotime($request->end_date))])->get();
 
         $csv_data = [];
         for($k = 0; $k < count($urls); $k++)
@@ -365,8 +362,7 @@ class ProfitsController extends Controller
     public function translateTitle($title)
     {
         $output = $this->translateOutput($title);
-        $eng_title = explode('"', $output)[1];
-        return $eng_title;
+        return explode('"', $output)[1];
     }
 
     public function translateOutput($title)

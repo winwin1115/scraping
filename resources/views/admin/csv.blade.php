@@ -22,7 +22,6 @@
                                 <div class="form-group col-md-12">
                                     <label for="site_type">サイト名</label>
                                     <select class="form-control ls-select2" name="site_type">
-                                        <option value="0">すべて</option>
                                         <option value="1">楽天</option>
                                         <option value="2">ヤフオク</option>
                                         <option value="3">フリマ・オークション</option>
