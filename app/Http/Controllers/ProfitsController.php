@@ -69,8 +69,7 @@ class ProfitsController extends Controller
             foreach($csv_data as $item) {
                 $row['Handle'] = $item['handle'];
                 $row['Title'] = $item['title'];
-                if($item['body'])
-                    $row['Body'] = $item['body'];
+                $row['Body'] = $item['body'];
                 $row['vendor'] = $item['vendor'];
                 $row['type'] = $item['type'];
                 $row['tags'] = $item['tags'];
