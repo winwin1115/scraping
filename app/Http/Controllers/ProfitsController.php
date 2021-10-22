@@ -67,58 +67,119 @@ class ProfitsController extends Controller
             fputcsv($file, $columns);
 
             foreach($csv_data as $item) {
-                $row['Handle'] = $item['handle'];
-                $row['Title'] = $item['title'];
-                $row['Body'] = $item['body'];
-                $row['vendor'] = $item['vendor'];
-                $row['type'] = $item['type'];
-                $row['tags'] = $item['tags'];
-                $row['published'] = $item['published'];
-                $row['option1_name'] = $item['option1_name'];
-                $row['option1_value'] = $item['option1_value'];
-                $row['option2_name'] = $item['option2_name'];
-                $row['option2_value'] = $item['option2_value'];
-                $row['option3_name'] = $item['option3_name'];
-                $row['option3_value'] = $item['option3_value'];
-                $row['variant_sku'] = $item['variant_sku'];
-                $row['variant_grams'] = $item['variant_grams'];
-                $row['variant_inventory_tracker'] = $item['variant_inventory_tracker'];
-                $row['variant_qty'] = $item['variant_qty'];
-                $row['variant_inventory_policy'] = $item['variant_inventory_policy'];
-                $row['variant_fullfillment_service'] = $item['variant_fullfillment_service'];
-                $row['variant_price'] = $item['variant_price'];
-                $row['variant_compare_price'] = $item['variant_compare_price'];
-                $row['variant_shipping'] = $item['variant_shipping'];
-                $row['variant_texable'] = $item['variant_texable'];
-                $row['variant_barcode'] = $item['variant_barcode'];
-                $row['image_src'] = $item['image_src'];
-                $row['image_alt'] = $item['image_alt'];
-                $row['image_position'] = $item['image_position'];
-                $row['gift_card'] = $item['gift_card'];
-                $row['seo_title'] = $item['title'];
-                $row['seo_description'] = $item['title'];
-                $row['google_product_cateory'] = $item['google_product_cateory'];
-                $row['gender'] = $item['gender'];
-                $row['age_group'] = $item['age_group'];
-                $row['mpn'] = $item['mpn'];
-                $row['adwords_group'] = $item['adwords_group'];
-                $row['adwords_label'] = $item['adwords_label'];
-                $row['condition'] = $item['condition'];
-                $row['custom_product'] = $item['custom_product'];
-                $row['custom_label0'] = $item['custom_label0'];
-                $row['custom_label1'] = $item['custom_label1'];
-                $row['custom_label2'] = $item['custom_label2'];
-                $row['custom_label3'] = $item['custom_label3'];
-                $row['custom_label4'] = $item['custom_label4'];
-                $row['variant_image'] = $item['variant_image'];
-                $row['variant_weight_unit'] = $item['variant_weight_unit'];
-                $row['variant_tax_code'] = $item['variant_tax_code'];
-                $row['variant_cost_per_item'] = $item['variant_cost_per_item'];
-                $row['status'] = $item['status'];
-                $row['standard_product_type'] = $item['standard_product_type'];
-                $row['custom_product_type'] = $item['custom_product_type'];
+                for($k = 0; $k < count($item['image_src']); $k++)
+                {
+                    if($k == 0)
+                    {
+                        $row['Handle'] = $item['handle'];
+                        $row['Title'] = $item['title'];
+                        $row['Body'] = $item['body'];
+                        $row['vendor'] = $item['vendor'];
+                        $row['type'] = $item['type'];
+                        $row['tags'] = $item['tags'];
+                        $row['published'] = $item['published'];
+                        $row['option1_name'] = $item['option1_name'];
+                        $row['option1_value'] = $item['option1_value'];
+                        $row['option2_name'] = $item['option2_name'];
+                        $row['option2_value'] = $item['option2_value'];
+                        $row['option3_name'] = $item['option3_name'];
+                        $row['option3_value'] = $item['option3_value'];
+                        $row['variant_sku'] = $item['variant_sku'];
+                        $row['variant_grams'] = $item['variant_grams'];
+                        $row['variant_inventory_tracker'] = $item['variant_inventory_tracker'];
+                        $row['variant_qty'] = $item['variant_qty'];
+                        $row['variant_inventory_policy'] = $item['variant_inventory_policy'];
+                        $row['variant_fullfillment_service'] = $item['variant_fullfillment_service'];
+                        $row['variant_price'] = $item['variant_price'];
+                        $row['variant_compare_price'] = $item['variant_compare_price'];
+                        $row['variant_shipping'] = $item['variant_shipping'];
+                        $row['variant_texable'] = $item['variant_texable'];
+                        $row['variant_barcode'] = $item['variant_barcode'];
+                        $row['image_src'] = $item['image_src'][0];
+                        $row['image_alt'] = $item['image_alt'][0];
+                        $row['image_position'] = $item['image_position'][0];
+                        $row['gift_card'] = $item['gift_card'];
+                        $row['seo_title'] = $item['title'];
+                        $row['seo_description'] = $item['title'];
+                        $row['google_product_cateory'] = $item['google_product_cateory'];
+                        $row['gender'] = $item['gender'];
+                        $row['age_group'] = $item['age_group'];
+                        $row['mpn'] = $item['mpn'];
+                        $row['adwords_group'] = $item['adwords_group'];
+                        $row['adwords_label'] = $item['adwords_label'];
+                        $row['condition'] = $item['condition'];
+                        $row['custom_product'] = $item['custom_product'];
+                        $row['custom_label0'] = $item['custom_label0'];
+                        $row['custom_label1'] = $item['custom_label1'];
+                        $row['custom_label2'] = $item['custom_label2'];
+                        $row['custom_label3'] = $item['custom_label3'];
+                        $row['custom_label4'] = $item['custom_label4'];
+                        $row['variant_image'] = $item['variant_image'];
+                        $row['variant_weight_unit'] = $item['variant_weight_unit'];
+                        $row['variant_tax_code'] = $item['variant_tax_code'];
+                        $row['variant_cost_per_item'] = $item['variant_cost_per_item'];
+                        $row['status'] = $item['status'];
+                        $row['standard_product_type'] = $item['standard_product_type'];
+                        $row['custom_product_type'] = $item['custom_product_type'];
 
-                fputcsv($file, array($row['Handle'], $row['Title'], $row['Body'], $row['vendor'], $row['standard_product_type'], $row['custom_product_type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shipping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status']));
+                        fputcsv($file, array($row['Handle'], $row['Title'], $row['Body'], $row['vendor'], $row['standard_product_type'], $row['custom_product_type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shipping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status']));
+                    }
+                    else
+                    {
+                        $row['Handle'] = $item['handle'];
+                        $row['Title'] = '';
+                        $row['Body'] = '';
+                        $row['vendor'] = '';
+                        $row['type'] = '';
+                        $row['tags'] = '';
+                        $row['published'] = '';
+                        $row['option1_name'] = '';
+                        $row['option1_value'] = '';
+                        $row['option2_name'] = '';
+                        $row['option2_value'] = '';
+                        $row['option3_name'] = '';
+                        $row['option3_value'] = '';
+                        $row['variant_sku'] = '';
+                        $row['variant_grams'] = '';
+                        $row['variant_inventory_tracker'] = '';
+                        $row['variant_qty'] = '';
+                        $row['variant_inventory_policy'] = '';
+                        $row['variant_fullfillment_service'] = '';
+                        $row['variant_price'] = '';
+                        $row['variant_compare_price'] = '';
+                        $row['variant_shipping'] = '';
+                        $row['variant_texable'] = '';
+                        $row['variant_barcode'] = '';
+                        $row['image_src'] = $item['image_src'][$k];
+                        $row['image_alt'] = $item['image_alt'][$k];
+                        $row['image_position'] = $item['image_position'][$k];
+                        $row['gift_card'] = '';
+                        $row['seo_title'] = '';
+                        $row['seo_description'] = '';
+                        $row['google_product_cateory'] = '';
+                        $row['gender'] = '';
+                        $row['age_group'] = '';
+                        $row['mpn'] = '';
+                        $row['adwords_group'] = '';
+                        $row['adwords_label'] = '';
+                        $row['condition'] = '';
+                        $row['custom_product'] = '';
+                        $row['custom_label0'] = '';
+                        $row['custom_label1'] = '';
+                        $row['custom_label2'] = '';
+                        $row['custom_label3'] = '';
+                        $row['custom_label4'] = '';
+                        $row['variant_image'] = '';
+                        $row['variant_weight_unit'] = '';
+                        $row['variant_tax_code'] = '';
+                        $row['variant_cost_per_item'] = '';
+                        $row['status'] = '';
+                        $row['standard_product_type'] = '';
+                        $row['custom_product_type'] = '';
+
+                        fputcsv($file, array($row['Handle'], $row['Title'], $row['Body'], $row['vendor'], $row['standard_product_type'], $row['custom_product_type'], $row['tags'], $row['published'], $row['option1_name'], $row['option1_value'], $row['option2_name'], $row['option2_value'], $row['option3_name'], $row['option3_value'], $row['variant_sku'], $row['variant_grams'], $row['variant_inventory_tracker'], $row['variant_qty'], $row['variant_inventory_policy'], $row['variant_fullfillment_service'], $row['variant_price'], $row['variant_compare_price'], $row['variant_shipping'], $row['variant_texable'], $row['variant_barcode'], $row['image_src'], $row['image_position'], $row['image_alt'], $row['gift_card'], $row['seo_title'], $row['seo_description'], $row['google_product_cateory'], $row['gender'], $row['age_group'], $row['mpn'], $row['adwords_group'], $row['adwords_label'], $row['condition'], $row['custom_product'], $row['custom_label0'], $row['custom_label1'], $row['custom_label2'], $row['custom_label3'], $row['custom_label4'], $row['variant_image'], $row['variant_weight_unit'], $row['variant_tax_code'], $row['variant_cost_per_item'], $row['status']));
+                    }
+                }
             }
 
             fclose($file);
@@ -228,7 +289,7 @@ class ProfitsController extends Controller
         $data['option3_value'] = '';
         $data['variant_sku'] = $href;
         $data['variant_grams'] = '2500';
-        $data['variant_inventory_tracker'] = 'Eight kNot Japan Co., Ltd';
+        $data['variant_inventory_tracker'] = 'shopify';
         $data['variant_qty'] = '1';
         $data['variant_inventory_policy'] = 'deny';
         $data['variant_fullfillment_service'] = 'manual';
@@ -272,39 +333,20 @@ class ProfitsController extends Controller
             $barcode = '';
         $data['variant_barcode'] = trim($barcode);
 
-        $image_src = '';
-        $image_alt = '';
-        $image_position = '';
+        $data['image_src'] = [];
+        $data['image_alt'] = [];
+        $data['image_position'] = [];
         $image_src_temp = $pokemon_xpath->query('//div[@class="ProductImage__footer js-imageGallery-footer"]//div[@class="ProductImage__indicator js-imageGallery-indicator"]//ul[@class="ProductImage__thumbnails"]//li//a//img');
 
         if(!is_null($image_src_temp))
         {
             foreach($image_src_temp as $index => $item)
             {
-                if($index == count($image_src_temp)-1)
-                {
-                    $image_src .= $item->getAttribute('src');
-                    $image_alt .= $item->getAttribute('alt');
-                    $image_position .= $index + 1;
-                }
-                else
-                {
-                    $image_src .= $item->getAttribute('src') . ', ';
-                    $image_alt .= $item->getAttribute('alt') . ', ';
-                    $image_position .= $index + 1 . ', ';
-                }
+                array_push($data['image_src'], $item->getAttribute('src'));
+                array_push($data['image_alt'], $item->getAttribute('alt'));
+                array_push($data['image_position'], $index + 1);
             }
-            $data['image_src'] = $image_src;
-            $data['image_alt'] = $image_alt;
-            $data['image_position'] = $image_position;
         }
-        else
-        {
-            $data['image_src'] = '';
-            $data['image_alt'] = '';   
-            $data['image_position'] = '';
-        }
-
 
         $data['gift_card'] = 'FALSE';
         $data['google_product_cateory'] = '';
