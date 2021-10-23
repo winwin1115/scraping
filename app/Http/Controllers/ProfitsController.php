@@ -378,7 +378,7 @@ class ProfitsController extends Controller
         else
             return;
         
-        for($i = 0; $i < 1; $i++)
+        for($i = 0; $i < count($url_array); $i++)
         {
             $output = $this->output($url_array[$i]);
             $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
