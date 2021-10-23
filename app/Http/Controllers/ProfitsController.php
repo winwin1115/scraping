@@ -261,7 +261,7 @@ class ProfitsController extends Controller
             {
                 $data['body'] = $item->C14N();
                 $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
-                $data['body'] = nl2br($data['body']);
+                $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
             }
         }
         else
