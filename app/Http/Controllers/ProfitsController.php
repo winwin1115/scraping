@@ -247,12 +247,15 @@ class ProfitsController extends Controller
         $data['title'] = $this->translateTitle($title);
 
         $data['handle'] = strtolower(str_replace(' ', '-', $data['title']));;
-        
+
         $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"] | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]');
         if(!is_null($body_temp))
         {
             foreach($body_temp as $item)
+            {
                 $data['body'] = $item->C14N();
+                $data['body'] = str_replace('width="100%"', 'width="100%"\n', $data['body']);
+            }
         }
         else
             $data['body'] = '';
