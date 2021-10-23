@@ -254,7 +254,7 @@ class ProfitsController extends Controller
             foreach($body_temp as $item)
             {
                 $data['body'] = $item->C14N();
-                $data['body'] = str_replace('width="100%"', 'width="100%"\n', $data['body']);
+                $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
             }
         }
         else
