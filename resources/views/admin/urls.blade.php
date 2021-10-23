@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="products-datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <table id="products-datatable" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th width="5%">No</th>

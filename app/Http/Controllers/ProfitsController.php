@@ -232,29 +232,7 @@ class ProfitsController extends Controller
         $pokemon_doc->loadHTML($output);
         libxml_clear_errors();
 
-        // $product_id = [];
-        $product_name = [];
         $pokemon_xpath = new DOMXPath($pokemon_doc);
-        $product_name_temp = $pokemon_xpath->query('//div[@id="yjBreadcrumbs"]//p//b');
-        if(!is_null($product_name_temp))
-        {
-            foreach($product_name_temp as $item)
-            {
-                // array_push($product_id, $item->getAttribute('data-ylk'));
-                array_push($product_name, $item->nodeValue);
-            }
-            $handle = '';
-            for($i = 0; $i < 3; $i++)
-            {
-                if($i == 2)
-                    $handle .= $product_name[$i];
-                else
-                    $handle .= $product_name[$i] . ' > ';
-            }
-            $data['handle'] = $handle;
-        }
-        else
-            $data['handle'] = '';
 
         $title = '';
         $title_temp = $pokemon_xpath->query('//div[@class="ProductTitle__title"]//h1[@class="ProductTitle__text"]');
@@ -268,6 +246,8 @@ class ProfitsController extends Controller
         
         $data['title'] = $this->translateTitle($title);
 
+        $data['handle'] = strtolower(str_replace(' ', '-', $data['title']));;
+        
         $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"] | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]');
         if(!is_null($body_temp))
         {

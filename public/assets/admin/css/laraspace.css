@@ -16192,7 +16192,10 @@ div.dataTables_scrollBody table thead .sorting_asc:after,
 div.dataTables_scrollBody table thead .sorting_desc:after {
   display: none;
 }
-
+div.dataTables_scrollBody table tbody tr td {
+  text-align: center;
+  vertical-align: middle;
+}
 div.dataTables_scrollBody table tbody tr:first-child th,
 div.dataTables_scrollBody table tbody tr:first-child td {
   border-top: none;
@@ -31478,7 +31481,8 @@ code, .code {
 }
 
 .brand-main img {
-  height: 25px;
+  height: 33px;
+  width: 210px;
   padding-top: 6px;
 }
 
@@ -31919,7 +31923,37 @@ code, .code {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 222, 0, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(255, 222, 0, 0.5);
 }
-
+.login-btn {
+  color: #fff;
+  font-weight: 500;
+  background-color: #ff8a42;
+  border-color: #ccb200;
+}
+.login-btn:hover {
+  color: #fff;
+  background-color: #282828;
+  border-color: #ff8a42;
+}
+.client-register-btn {
+  width: 48%;
+  float: left;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  background-color: #ffde00;
+  color: #333 !important;
+}
+.partner-register-btn {
+  width: 48%;
+  float: right;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  background-color: #ffde00;
+  color: #333 !important;
+}
+.client-register-btn:hover, .partner-register-btn:hover {
+  background-color: #ff8a42;
+  color: #fff !important;
+}
 .btn-theme.disabled, .btn-theme:disabled {
   background-color: #ffde00;
   border-color: #ffde00;
@@ -33614,7 +33648,9 @@ code, .code {
   margin-bottom: 10px;
   margin-top: 20px;
 }
-
+.link-agreement:hover, .link-policy:hover {
+  text-decoration: underline !important;
+}
 .login-page .login-box .page-copyright {
   font-size: 14px;
   margin-top: 50px;
@@ -33678,11 +33714,18 @@ code, .code {
 
 .login-page .logo-main img {
   height: auto;
-  width: 300px;
+  width: 360px;
 }
-
+.consent_confirmation input {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  top: 3px;
+  margin-right: 5px;
+  float: left;
+}
 .login-page .other-options {
-  border-top: 1px solid #fff;
+  /* border-top: 1px solid #fff; */
   padding: 1rem 0;
   padding-top: 2rem;
 }
@@ -33929,7 +33972,7 @@ code, .code {
 .activity-list .media {
   padding-top: 15px;
   padding-right: 20px;
-  padding-bottom: 15px;
+  /* padding-bottom: 15px; */
   border-bottom: 1px solid #ddd;
 }
 
@@ -34314,4 +34357,24 @@ code, .code {
   .skin-tools .skin-item:last-child {
     margin-bottom: 0;
   }
+}
+.company-avatars img {
+  width: 100%;
+  height: 100%;
+}
+.company-status span.active, .project-status span.active {
+  padding: 5px 30px;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #4fc47f;
+  border-radius: 15px;
+}
+.company-status span.suspend, .project-status span.suspend {
+  padding: 5px 30px;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #f35a3d;
+  border-radius: 15px;
 }
