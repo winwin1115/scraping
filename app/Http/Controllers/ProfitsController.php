@@ -18,6 +18,7 @@ class ProfitsController extends Controller
 {
     protected $webDriver;
     private $final_data = [];
+    private $custom_title = '';
 
     public function index()
     {
@@ -246,7 +247,12 @@ class ProfitsController extends Controller
         
         $data['title'] = $this->translateTitle($title);
 
-        $data['handle'] = strtolower(str_replace(' ', '-', $data['title']));;
+        if($this->custom_title == $data['title'])
+        {
+            $data['title'] .= '1';
+        }
+
+        $data['handle'] = strtolower(str_replace(' ', '-', $data['title']));
 
         $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"] | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]');
         if(!is_null($body_temp))
@@ -353,6 +359,8 @@ class ProfitsController extends Controller
         $data['status'] = 'active';
         $data['standard_product_type'] = '';
         $data['custom_product_type'] = 'Computer';
+
+        $this->custom_title = $data['title'];
 
         return $data;
     }
