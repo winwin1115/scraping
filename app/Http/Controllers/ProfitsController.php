@@ -255,6 +255,7 @@ class ProfitsController extends Controller
             {
                 $data['body'] = $item->C14N();
                 $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
+                $data['body'] = nl2br($data['body']);
             }
         }
         else
@@ -377,7 +378,7 @@ class ProfitsController extends Controller
         else
             return;
         
-        for($i = 0; $i < count($url_array); $i++)
+        for($i = 0; $i < 1; $i++)
         {
             $output = $this->output($url_array[$i]);
             $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
