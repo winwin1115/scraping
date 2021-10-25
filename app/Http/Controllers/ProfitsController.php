@@ -300,7 +300,7 @@ class ProfitsController extends Controller
             $real_price = (float)$real_price;
 
             $data['variant_price'] = $real_price * $currency_rate * $profit_rate;
-            $data['variant_compare_price'] = $real_price * $currency_rate;
+            $data['variant_compare_price'] = $real_price * $currency_rate * 1.1;
         }
         else
         {
@@ -355,7 +355,7 @@ class ProfitsController extends Controller
         $data['variant_image'] = '';
         $data['variant_weight_unit'] = 'g';
         $data['variant_tax_code'] = '';
-        $data['variant_cost_per_item'] = '';
+        $data['variant_cost_per_item'] = $real_price * $currency_rate;
         $data['status'] = 'active';
         $data['standard_product_type'] = '';
         $data['custom_product_type'] = 'Computer';
