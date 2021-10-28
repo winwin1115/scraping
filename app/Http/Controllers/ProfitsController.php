@@ -255,43 +255,54 @@ class ProfitsController extends Controller
         $data['handle'] = strtolower(str_replace(' ', '-', $data['title']));
 
         $body_array = [];
-        $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/font/font/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/font/font/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/font/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/font/font/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/text()');
+        $body_text = '';
+        $l = 0;
+        $q = 0;
+        $tran_word = '';
+        $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/text()');
         if(!is_null($body_temp))
         {
             foreach($body_temp as $item)
             {
-                array_push($body_array, $item->nodeValue);
+                // array_push($body_array, $item->nodeValue);
                 // $data['body'] = $item->C14N();
                 // $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
                 // $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
+                if(strlen($body_text) > 370 || strpos($body_text, '。') || strpos($body_text, 'メーカー'))
+                {
+                    $tran_word .= $this->translateTitle($body_text) . ' | ';
+                    var_dump($body_text);
+                    $body_text = '';
+                }
+                $body_text = $body_text . $item->nodeValue . '。';
+                if($q == 1)
+                    break;
+                if($item->nodeValue == 'その他')
+                    $q = 1;
             }
 
-            $data['body'] = "<table border='1' cellpadding='5' width='100%'><tr><td align='center' colspan='3'>Product Details</td></tr>";
+            $data['body'] = "<table border='1' cellpadding='5' width='100%'><tr><td align='center' colspan='3'>Product Details</td></tr><tr><td>";
             $data['body'] .= PHP_EOL;
             for($p = 1; $p < count($body_array); $p++)
             {
                 $tran_word = $this->translateTitle($body_array[$p]);
+
                 if($body_array[$p - 1] == 'その他')
                 {
-                    $data['body'] .= "<td align='left' width='70%'>" . $tran_word . "</td></tr>";
+                    $data['body'] .= $tran_word;
                     break;
                 }                    
-                elseif($p % 2 == 1 && $body_array[$p] != '商')
-                {
-                    $data['body'] .= "<tr><td align='center' width='30%'>" . $tran_word . "</td>";
-                }
-                elseif($p % 2 == 0 &&  $body_array[$p] != '商')
-                {
-                    $data['body'] .= "<td align='left' width='70%'>" . $tran_word . "</td></tr>";
-                    $data['body'] .= PHP_EOL;
-                }
                 elseif($body_array[$p] == '商')
                 {
                     $p = $p + 3;
                 }
+                elseif($body_array[$p] != '商')
+                {
+                    $data['body'] .= $tran_word;
+                }
 
             }
-            $data['body'] .= "</table>";
+            $data['body'] .= "</td></tr></table>";
         }
         else
             $data['body'] = '';
