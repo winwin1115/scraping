@@ -268,7 +268,7 @@ class ProfitsController extends Controller
                 // $data['body'] = $item->C14N();
                 // $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
                 // $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
-                if(strlen($body_text) > 370 || strpos($body_text, '。') || strpos($body_text, 'メーカー'))
+                if(strpos($body_text, '。'))
                 {
                     $tran_word .= $this->translateTitle($body_text) . ' | ';
                     $body_text = '';
