@@ -271,7 +271,6 @@ class ProfitsController extends Controller
                 if(strlen($body_text) > 370 || strpos($body_text, '。') || strpos($body_text, 'メーカー'))
                 {
                     $tran_word .= $this->translateTitle($body_text) . ' | ';
-                    var_dump($body_text);
                     $body_text = '';
                 }
                 $body_text = $body_text . $item->nodeValue . '。';
@@ -281,24 +280,28 @@ class ProfitsController extends Controller
                     $q = 1;
             }
 
+            $body_array = explode(' | ', $tran_word);
+
             $data['body'] = "<table border='1' cellpadding='5' width='100%'><tr><td align='center' colspan='3'>Product Details</td></tr><tr><td>";
             $data['body'] .= PHP_EOL;
             for($p = 1; $p < count($body_array); $p++)
             {
                 $tran_word = $this->translateTitle($body_array[$p]);
-
-                if($body_array[$p - 1] == 'その他')
+                  
+                if($body_array[$p] == 'Performance ranking.' || $body_array[$p] == 'Recommendation of store manager.' || $body_array[$p] == 'Recommended point.' || $body_array[$p] == 'Manufacturer.' || $body_array[$p] == 'Model number.' || $body_array[$p] == 'CPU?' || $body_array[$p] == 'memory.' || $body_array[$p] == 'HDD?' || $body_array[$p] == 'Mounted drive.' || $body_array[$p] == 'display.' || $body_array[$p] == 'LAN.' || $body_array[$p] == 'Wireless LAN.' || $body_array[$p] == 'Interface.' || $body_array[$p] == 'Product seal.' || $body_array[$p] == 'recovery.' || $body_array[$p] == 'accessories?' || $body_array[$p] == 'liquid crystal.' || $body_array[$p] == 'Top cover.' || $body_array[$p] == 'keyboard.' || $body_array[$p] == 'Palm rest.' || $body_array[$p] == 'battery.' || $body_array[$p] == 'Operation confirmation.' || $body_array[$p] == 'others.')
                 {
-                    $data['body'] .= $tran_word;
-                    break;
-                }                    
-                elseif($body_array[$p] == '商')
-                {
-                    $p = $p + 3;
+                    if(substr($body_array[$p], -1) == '.')
+                        $body_array[$p] = mb_substr($body_array[$p], 0, -1);
+                    $data['body'] .= "<tr><td align='center' width='30%'>" . ucfirst($body_array[$p]) . "</td>";
                 }
-                elseif($body_array[$p] != '商')
+                elseif($body_array[$p] == 'YOU.')
                 {
-                    $data['body'] .= $tran_word;
+                    $data['body'] .= "<tr><td align='center' width='30%'>OS</td>";
+                }
+                else
+                {
+                    $data['body'] .= "<td align='left' width='70%'>" . ucfirst($body_array[$p]) . "</td></tr>";
+                    $data['body'] .= PHP_EOL;
                 }
 
             }
