@@ -440,6 +440,9 @@ class ProfitsController extends Controller
     public function translateTitle($title)
     {
         $output = $this->translateOutput($title);
+        echo '<pre>';
+        var_dump($output);
+        echo '</pre>';
         $eng_title = explode('"', $output)[1];
         return $eng_title;
     }
