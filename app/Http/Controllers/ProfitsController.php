@@ -288,7 +288,7 @@ class ProfitsController extends Controller
             {
                 if($body_array[$p] == 'Performance ranking.' || $body_array[$p] == 'Recommendation of store manager.' || $body_array[$p] == 'Recommended point.' || $body_array[$p] == 'Manufacturer.' || $body_array[$p] == 'Model number.' || $body_array[$p] == 'CPU?' || $body_array[$p] == 'memory.' || $body_array[$p] == 'HDD?' || $body_array[$p] == 'Mounted drive.' || $body_array[$p] == 'display.' || $body_array[$p] == 'LAN.' || $body_array[$p] == 'Wireless LAN.' || $body_array[$p] == 'Interface.' || $body_array[$p] == 'Product seal.' || $body_array[$p] == 'recovery.' || $body_array[$p] == 'accessories?' || $body_array[$p] == 'liquid crystal.' || $body_array[$p] == 'Top cover.' || $body_array[$p] == 'keyboard.' || $body_array[$p] == 'Palm rest.' || $body_array[$p] == 'battery.' || $body_array[$p] == 'Operation confirmation.' || $body_array[$p] == 'others.')
                 {
-                    if(substr($body_array[$p], -1) == '.')
+                    if(substr($body_array[$p], -1) == '.' || substr($body_array[$p], -1) == '?')
                         $body_array[$p] = mb_substr($body_array[$p], 0, -1);
                     $data['body'] .= "</td></tr>";
                     $data['body'] .= PHP_EOL;
@@ -300,7 +300,7 @@ class ProfitsController extends Controller
                 }
                 else
                 {
-                    $data['body'] .= ucfirst($body_array[$p]) . '。';
+                    $data['body'] .= $body_array[$p] . '. ';
                 }
             }
             $data['body'] .= "</td></tr></table>";
