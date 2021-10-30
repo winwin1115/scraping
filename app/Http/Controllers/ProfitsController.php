@@ -245,7 +245,7 @@ class ProfitsController extends Controller
         }
         else
             $title = '';
-        if($this->tran_count == 300)
+        if($this->tran_count == 150)
         {
             sleep(60);
             $this->tran_count = 0;
@@ -275,7 +275,7 @@ class ProfitsController extends Controller
                 // $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
                 if(strpos($body_text, '。'))
                 {
-                    if($this->tran_count == 300)
+                    if($this->tran_count == 150)
                     {
                         sleep(60);
                         $this->tran_count = 0;
