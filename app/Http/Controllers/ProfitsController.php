@@ -264,60 +264,60 @@ class ProfitsController extends Controller
         $l = 0;
         $q = 0;
         $tran_word = '';
-        $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/text()');
-        if(!is_null($body_temp))
-        {
-            foreach($body_temp as $item)
-            {
-                // array_push($body_array, $item->nodeValue);
-                // $data['body'] = $item->C14N();
-                // $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
-                // $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
-                if(strpos($body_text, '。'))
-                {
-                    if($this->tran_count == 100)
-                    {
-                        sleep(60);
-                        $this->tran_count = 0;
-                    }
-                    $tran_word .= $this->translateTitle($body_text) . ' | ';
-                    $this->tran_count++;
-                    $body_text = '';
-                }
-                $body_text = $body_text . $item->nodeValue . '。';
-                if($q == 1)
-                    break;
-                if($item->nodeValue == 'その他')
-                    $q = 1;
-            }
+        // $body_temp = $pokemon_xpath->query('//div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/p/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/font/text() = "商品の詳細"]/tr/td/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/font/text() | //div[@class="ProductExplanation__commentBody js-disabledContextMenu"]//table[tr/td[1]/text() = "商品の詳細"]/tr/td/p/text()');
+        // if(!is_null($body_temp))
+        // {
+        //     foreach($body_temp as $item)
+        //     {
+        //         // array_push($body_array, $item->nodeValue);
+        //         // $data['body'] = $item->C14N();
+        //         // $data['body'] = str_replace('width="100%">', 'width="100%">\n', $data['body']);
+        //         // $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
+        //         if(strpos($body_text, '。'))
+        //         {
+        //             if($this->tran_count == 100)
+        //             {
+        //                 sleep(60);
+        //                 $this->tran_count = 0;
+        //             }
+        //             $tran_word .= $this->translateTitle($body_text) . ' | ';
+        //             $this->tran_count++;
+        //             $body_text = '';
+        //         }
+        //         $body_text = $body_text . $item->nodeValue . '。';
+        //         if($q == 1)
+        //             break;
+        //         if($item->nodeValue == 'その他')
+        //             $q = 1;
+        //     }
 
-            $body_array = explode(' | ', $tran_word);
+        //     $body_array = explode(' | ', $tran_word);
 
-            $data['body'] = "<table border='1' cellpadding='5' width='100%'><tr><td align='center' colspan='3'>Product Details";
+        //     $data['body'] = "<table border='1' cellpadding='5' width='100%'><tr><td align='center' colspan='3'>Product Details";
             
-            for($p = 1; $p < count($body_array); $p++)
-            {
-                if($body_array[$p] == 'Performance ranking.' || $body_array[$p] == 'Recommendation of store manager.' || $body_array[$p] == 'Recommended point.' || $body_array[$p] == 'Manufacturer.' || $body_array[$p] == 'Model number.' || $body_array[$p] == 'CPU?' || $body_array[$p] == 'memory.' || $body_array[$p] == 'HDD?' || $body_array[$p] == 'Mounted drive.' || $body_array[$p] == 'display.' || $body_array[$p] == 'LAN.' || $body_array[$p] == 'Wireless LAN.' || $body_array[$p] == 'Interface.' || $body_array[$p] == 'Product seal.' || $body_array[$p] == 'recovery.' || $body_array[$p] == 'accessories?' || $body_array[$p] == 'liquid crystal.' || $body_array[$p] == 'Top cover.' || $body_array[$p] == 'keyboard.' || $body_array[$p] == 'Palm rest.' || $body_array[$p] == 'battery.' || $body_array[$p] == 'Operation confirmation.' || $body_array[$p] == 'others.')
-                {
-                    if(substr($body_array[$p], -1) == '.' || substr($body_array[$p], -1) == '?')
-                        $body_array[$p] = mb_substr($body_array[$p], 0, -1);
-                    $data['body'] .= "</td></tr>";
-                    $data['body'] .= PHP_EOL;
-                    $data['body'] .= "<tr><td align='center' width='30%'>" . ucfirst($body_array[$p]) . "</td><td align='left' width='70%'>";
-                }
-                elseif($body_array[$p] == 'YOU.')
-                {
-                    $data['body'] .= "<tr><td align='center' width='30%'>OS</td>";
-                }
-                else
-                {
-                    $data['body'] .= $body_array[$p] . '. ';
-                }
-            }
-            $data['body'] .= "</td></tr></table>";
-        }
-        else
-            $data['body'] = '';
+        //     for($p = 1; $p < count($body_array); $p++)
+        //     {
+        //         if($body_array[$p] == 'Performance ranking.' || $body_array[$p] == 'Recommendation of store manager.' || $body_array[$p] == 'Recommended point.' || $body_array[$p] == 'Manufacturer.' || $body_array[$p] == 'Model number.' || $body_array[$p] == 'CPU?' || $body_array[$p] == 'memory.' || $body_array[$p] == 'HDD?' || $body_array[$p] == 'Mounted drive.' || $body_array[$p] == 'display.' || $body_array[$p] == 'LAN.' || $body_array[$p] == 'Wireless LAN.' || $body_array[$p] == 'Interface.' || $body_array[$p] == 'Product seal.' || $body_array[$p] == 'recovery.' || $body_array[$p] == 'accessories?' || $body_array[$p] == 'liquid crystal.' || $body_array[$p] == 'Top cover.' || $body_array[$p] == 'keyboard.' || $body_array[$p] == 'Palm rest.' || $body_array[$p] == 'battery.' || $body_array[$p] == 'Operation confirmation.' || $body_array[$p] == 'others.')
+        //         {
+        //             if(substr($body_array[$p], -1) == '.' || substr($body_array[$p], -1) == '?')
+        //                 $body_array[$p] = mb_substr($body_array[$p], 0, -1);
+        //             $data['body'] .= "</td></tr>";
+        //             $data['body'] .= PHP_EOL;
+        //             $data['body'] .= "<tr><td align='center' width='30%'>" . ucfirst($body_array[$p]) . "</td><td align='left' width='70%'>";
+        //         }
+        //         elseif($body_array[$p] == 'YOU.')
+        //         {
+        //             $data['body'] .= "<tr><td align='center' width='30%'>OS</td>";
+        //         }
+        //         else
+        //         {
+        //             $data['body'] .= $body_array[$p] . '. ';
+        //         }
+        //     }
+        //     $data['body'] .= "</td></tr></table>";
+        // }
+        // else
+        //     $data['body'] = '';
 
         $data['vendor'] = 'Eight kNot Japan Co., Ltd';
         $data['type'] = 'Personal Computers';
@@ -340,6 +340,7 @@ class ProfitsController extends Controller
         $real_price = '';
         $price_array = [];
         $price_temp = $pokemon_xpath->query('//div[@class="Price Price--buynow"]//div[@class="Price__borderBox"]//dl[@class="Price__body "]//dd[@class="Price__value"] | //div[@class="Price Price--buynow"]//div[@class="Price__borderBox"]//dl[@class="Price__body Price__body--none "]//dd[@class="Price__value"]');
+        dd($price_temp);
         if(!is_null($price_temp))
         {
             foreach($price_temp as $item)
@@ -438,10 +439,17 @@ class ProfitsController extends Controller
         else
             return;
         
-        for($i = 0; $i < count($url_array); $i++)
+        // for($i = 0; $i < count($url_array); $i++)
+        // {
+        //     $output = $this->output($url_array[$i]);
+        //     $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
+        //     array_push($this->final_data, $result);
+        // }
+
+        for($i = 0; $i < 1; $i++)
         {
-            $output = $this->output($url_array[$i]);
-            $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
+            $output = $this->output('https://page.auctions.yahoo.co.jp/jp/auction/1001863828');
+            $result = $this->makeDoc($output, 'https://page.auctions.yahoo.co.jp/jp/auction/1001863828', $currency_rate, $profit_rate);
             array_push($this->final_data, $result);
         }
         
