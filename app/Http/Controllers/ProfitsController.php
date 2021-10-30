@@ -438,16 +438,10 @@ class ProfitsController extends Controller
         else
             return;
         
-        // for($i = 0; $i < count($url_array); $i++)
-        // {
-        //     $output = $this->output($url_array[$i]);
-        //     $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
-        //     array_push($this->final_data, $result);
-        // }
-        for($i = 0; $i < 1; $i++)
+        for($i = 0; $i < count($url_array); $i++)
         {
-            $output = $this->output('https://page.auctions.yahoo.co.jp/jp/auction/1001863828');
-            $result = $this->makeDoc($output, 'https://page.auctions.yahoo.co.jp/jp/auction/1001863828', $currency_rate, $profit_rate);
+            $output = $this->output($url_array[$i]);
+            $result = $this->makeDoc($output, $url_array[$i], $currency_rate, $profit_rate);
             array_push($this->final_data, $result);
         }
         
