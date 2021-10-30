@@ -339,7 +339,7 @@ class ProfitsController extends Controller
         $price = '';
         $real_price = '';
         $price_array = [];
-        $price_temp = $pokemon_xpath->query('//div[@class="Price Price--buynow"]//div[@class="Price__borderBox"]//dl[@class="Price__body "]//dd[@class="Price__value"]');
+        $price_temp = $pokemon_xpath->query('//div[@class="Price Price--buynow"]//div[@class="Price__borderBox"]//dl[@class="Price__body "]//dd[@class="Price__value"] | //div[@class="Price Price--buynow"]//div[@class="Price__borderBox"]//dl[@class="Price__body Price__body--none "]//dd[@class="Price__value"]');
         if(!is_null($price_temp))
         {
             foreach($price_temp as $item)
