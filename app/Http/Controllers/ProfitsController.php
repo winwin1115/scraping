@@ -19,6 +19,7 @@ class ProfitsController extends Controller
     protected $webDriver;
     private $final_data = [];
     private $custom_title = '';
+    private $tran_count = 0;
 
     public function index()
     {
@@ -244,9 +245,13 @@ class ProfitsController extends Controller
         }
         else
             $title = '';
-        
+        if($this->tran_count == 100)
+        {
+            sleep(30);
+            $this->tran_count = 0;
+        }
         $data['title'] = $this->translateTitle($title);
-
+        $this->tran_count++;
         if($this->custom_title == $data['title'])
         {
             $data['title'] .= '1';
@@ -270,7 +275,13 @@ class ProfitsController extends Controller
                 // $data['body'] = str_replace('\n', PHP_EOL, $data['body']);
                 if(strpos($body_text, '。'))
                 {
+                    if($this->tran_count == 100)
+                    {
+                        sleep(30);
+                        $this->tran_count = 0;
+                    }
                     $tran_word .= $this->translateTitle($body_text) . ' | ';
+                    $this->tran_count++;
                     $body_text = '';
                 }
                 $body_text = $body_text . $item->nodeValue . '。';
