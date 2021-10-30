@@ -248,7 +248,6 @@ class ProfitsController extends Controller
         if($this->tran_count == 100)
         {
             sleep(60);
-            var_dump('ccc');
             $this->tran_count = 0;
         }
         $data['title'] = $this->translateTitle($title);
@@ -279,7 +278,6 @@ class ProfitsController extends Controller
                     if($this->tran_count == 100)
                     {
                         sleep(60);
-                        var_dump('counting');
                         $this->tran_count = 0;
                     }
                     $tran_word .= $this->translateTitle($body_text) . ' | ';
@@ -453,9 +451,6 @@ class ProfitsController extends Controller
     public function translateTitle($title)
     {
         $output = $this->translateOutput($title);
-        echo '<pre>';
-        var_dump($output);
-        echo '</pre>';
         $eng_title = explode('"', $output)[1];
         return $eng_title;
     }
