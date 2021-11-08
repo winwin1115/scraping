@@ -3,7 +3,10 @@ var Products = (function () {
 		var _token = $('#token_hidden').val();
 		$.ajax({
 			url: 'auto/deleteProduct',
-			type: 'GET',
+			type: 'POST',
+			data: {
+				_token: _token
+			},
 			success: function(response) {
 				if(response['status'] == '200')
 				{
@@ -11,6 +14,7 @@ var Products = (function () {
 						toastr['success'](response["count"] + 'つの商品が削除されました。', '成功');
 					else
 						toastr['success']('削除された商品がありません。', '成功');
+					setTimeout('location.reload()', 2000);
 				}
 				else
 				{

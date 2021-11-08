@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <button class="btn btn-primary" style="float: right;"><i class="icon-fa icon-fa-cloud-upload" style="margin-right: 5px;"></i>自動出品</button> --}}
-                            {{-- <input type="hidden" value="{{ csrf_token() }}" id="token_hidden" /> --}}
+                            <input type="hidden" value="{{ csrf_token() }}" id="token_hidden" />
                             <button class="btn btn-danger delete-product" style="float: right; margin-right: 10px; color: #fff;"><i class="icon-fa icon-fa-trash" style="margin-right: 5px;"></i>自動削除</button>
                         {{-- </form> --}}
                     </div>

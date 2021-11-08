@@ -19,7 +19,7 @@ class AutoFunController extends Controller
 
     }
 
-    public function deleteProduct()
+    public function deleteProduct(Request $request)
     {
         $count = 0;
         // username and password for API
