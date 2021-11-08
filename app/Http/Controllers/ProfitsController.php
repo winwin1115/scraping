@@ -205,13 +205,14 @@ class ProfitsController extends Controller
         else
             $profit_rate = '';
 
-        $urls = [];
+        // $urls = [];
         $csv_data = [];
-        $urls = $request->site_url;
-        for($k = 0; $k < count($urls); $k++)
-        {
-            $csv_data = $this->makeCsvData($urls[$k], $currency_rate, $profit_rate);
-        }
+        // $urls = $request->site_url;
+        // for($k = 0; $k < count($urls); $k++)
+        // {
+        //     $csv_data = $this->makeCsvData($urls[$k], $currency_rate, $profit_rate);
+        // }
+        $csv_data = $this->makeCsvData($request->site_url, $currency_rate, $profit_rate);
 
         // CSV Produce
         $filename = 'scraping.csv';

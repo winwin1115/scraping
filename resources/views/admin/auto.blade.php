@@ -31,7 +31,13 @@
                             @foreach($withdraw_info as $i => $item)
                                 <tr>
                                     <td>{{$i + 1}}</td>
-                                    <td style="text-align: left;">{{$item->withdraw_count}}つの商品が取り下げされました。</td>
+                                    <td style="text-align: left;">
+                                        @if ($item->withdraw_count)
+                                            {{$item->withdraw_count}}つの商品が取り下げされました。
+                                        @else
+                                            取り下げされた用品がありません。
+                                        @endif
+                                    </td>
                                     <td>{{$item->created_at}}</td>
                                 </tr>
                             @endforeach

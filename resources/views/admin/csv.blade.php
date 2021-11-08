@@ -64,7 +64,12 @@
                                             <div class="form-group col-md-12">
                                                 <label for="start_date">商品ページ</label>
                                                 <div>
-                                                    <select class="form-control ls-select2" multiple="multiple" style="width: 100%;" id="site_url" name="site_url[]">
+                                                    {{-- <select class="form-control ls-select2" multiple="multiple" style="width: 100%;" id="site_url" name="site_url[]">
+                                                        @foreach ($urls as $item)
+                                                            <option value="{{ $item->site_url }}">{{ $item->site_url }}</option>
+                                                        @endforeach
+                                                    </select> --}}
+                                                    <select class="form-control ls-select2" style="width: 100%;" id="site_url" name="site_url" placeholder="商品ページを選択してください。">
                                                         @foreach ($urls as $item)
                                                             <option value="{{ $item->site_url }}">{{ $item->site_url }}</option>
                                                         @endforeach
