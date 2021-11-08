@@ -17,7 +17,11 @@
         "laravel/socialite": "^2.0",
         "facebook/webdriver": "^1.7",
         "symfony/mime": "^4.4|^5.0",
-        "fabpot/goutte": "^4.0"
+        "fabpot/goutte": "^4.0",
+        "osiset/laravel-shopify": "^14.0.1",
+        "signifly/laravel-shopify": "^0.5.2",
+        "dan/shopify-api": "v0.9.9.*",
+        "shopify/shopify-api": "^0.4"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",

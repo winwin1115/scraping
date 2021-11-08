@@ -29,10 +29,16 @@ return [
             'icon' => 'icon-fa icon-fa-paypal',
         ],
         [
-            'title' => 'CSVで生成',
+            'title' => 'CSV生成',
             'link' => '/csv',
             'active' => 'csv',
             'icon' => 'icon-fa icon-fa-cloud-download',
+        ],
+        [
+            'title' => '自動取り下げ',
+            'link' => '/auto',
+            'active' => 'auto',
+            'icon' => 'icon-fa icon-fa-briefcase',
         ]
     ],
 

@@ -45,3 +45,17 @@ Route::group(['prefix' => 'csv'], function () {
         'as' => 'csv.putCsv', 'uses' => 'ProfitsController@putCsv'
     ]);
 });
+
+Route::group(['prefix' => 'auto'], function () {
+    Route::get('/', [
+        'as' => 'auto', 'uses' => 'AutoFunController@index'
+    ]);
+
+    Route::post('/createProduct', [
+        'as' => 'auto.createProduct', 'uses' => 'AutoFunController@createProduct'
+    ]);
+
+    Route::post('/deleteProduct', [
+        'as' => 'auto.deleteProduct', 'uses' => 'AutoFunController@deleteProduct'
+    ]);
+});

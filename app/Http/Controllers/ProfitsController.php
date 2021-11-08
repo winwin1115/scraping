@@ -41,11 +41,11 @@ class ProfitsController extends Controller
         else
             $profit_rate = '';
 
-        if($request->site_type != '0')
-            $urls = Urls::where(['site_type' => $request->site_type])->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
-        else
-            $urls = Urls::where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
-
+        // if($request->site_type != '0')
+        //     $urls = Urls::where(['site_type' => $request->site_type])->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
+        // else
+        //     $urls = Urls::where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
+        $urls = Urls::where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($request->start_date)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($request->end_date)))->get();
         $csv_data = [];
         for($k = 0; $k < count($urls); $k++)
         {
