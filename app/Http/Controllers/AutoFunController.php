@@ -21,6 +21,8 @@ class AutoFunController extends Controller
 
     public function deleteProduct(Request $request)
     {
+        $count = 0;
+        $this->removeProduct('12');
         // username and password for API
         $username = "d64689e91e479d726827b3730118355f";
         $password = "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";
@@ -113,16 +115,20 @@ class AutoFunController extends Controller
             if(!is_null($url_temp))
             {
                 foreach($url_temp as $item)
-                    // $amount = $item->nodeValue;
-                    dd($item->nodeValue);
+                    $amount = $item->nodeValue;
+                
                 if(!$amount)
-                    $this->removeProduct($result[$i]->id);
+                {
+                    $res = $this->removeProduct($result[$i]->id);
+                    if($res)
+                        $count++;
+                }
             }
             else
             {
-                dd('else');
+                return response()->json(['status' => '500']);
             }
-            dd('exit');
+            return response()->json(['status' => '200', 'count' => $count]);
         }
     }
 
@@ -163,6 +169,52 @@ class AutoFunController extends Controller
 
     public function removeProduct($id)
     {
-        dd('success');
+        $curl = curl_init();
+        // set result limit and Basic auth
+        $url = "https://d64689e91e479d726827b3730118355f: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@japan-upc-wholesale.myshopify.com/admin/api/2021-10/products/" . $id . ".json";
+        curl_setopt_array(
+            $curl,
+            array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => "DELETE",
+            )
+        );
+
+        $response = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+            $error_msg = curl_error($curl);
+            print_r($error_msg);
+            return false;
+        }
+
+        curl_close($curl);
+        if(strpos($response, 'error'))
+            return false;
+        else
+            return true;
+        // $shop = "d64689e91e479d726827b3730118355f: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@japan-upc-wholesale";
+        // $token = "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";
+        // $api_endpoint="/admin/api/2021-10/price_rules/" . $id . ".json";
+        // $url = "https://" . $shop . ".myshopify.com" . $api_endpoint;
+                    
+        // $header=array('Content-Type: application/json','Authorization:Basic Og==','X-Shopify-Access-Token: ' .$token);
+
+        // $curl = curl_init();
+        // curl_setopt($curl, CURLOPT_URL, $url);
+        // curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($curl, CURLOPT_VERBOSE, 0);
+        // curl_setopt($curl, CURLOPT_HEADER, 1);
+        // curl_setopt($curl, CURLOPT_CUSTOMREQUEST,"DELETE");
+        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // $response = curl_exec ($curl);
+        // if (curl_errno($curl)) {
+        //     die('Couldn\'t send request: ' . curl_error($curl));
+        //     } 
+        // curl_close ($curl);
+        
+        // dd($response);
     }
 }
