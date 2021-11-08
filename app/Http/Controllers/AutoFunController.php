@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Withdrawal;
 use DOMDocument;
 use DOMXPath;
 
@@ -11,7 +11,8 @@ class AutoFunController extends Controller
 {
     public function index()
     {
-        return view('admin.auto');
+        $withdraw_info = Withdrawal::all();
+        return view('admin.auto')->with(['withdraw_info' => $withdraw_info]);
     }
 
     public function createProduct(Request $request)
@@ -21,7 +22,7 @@ class AutoFunController extends Controller
 
     public function deleteProduct(Request $request)
     {
-        $count = 0;
+        $count = 5;
         // username and password for API
         $username = "d64689e91e479d726827b3730118355f";
         $password = "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";
@@ -124,6 +125,11 @@ class AutoFunController extends Controller
                 }
             }
         }
+
+        $withdrawl = new Withdrawal;
+        $withdrawl->withdraw_count = $count;
+        $withdrawl->save();
+
         return response()->json(['status' => '200', 'count' => $count]);
     }
 

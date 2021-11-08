@@ -41,8 +41,12 @@ Route::group(['prefix' => 'csv'], function () {
         'as' => 'csv', 'uses' => 'ProfitsController@index'
     ]);
 
-    Route::post('/putCsv', [
-        'as' => 'csv.putCsv', 'uses' => 'ProfitsController@putCsv'
+    Route::post('/putDateCsv', [
+        'as' => 'csv.putDateCsv', 'uses' => 'ProfitsController@putDateCsv'
+    ]);
+
+    Route::post('/putPageCsv', [
+        'as' => 'csv.putPageCsv', 'uses' => 'ProfitsController@putPageCsv'
     ]);
 });
 

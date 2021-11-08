@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCurrencysTable extends Migration
+class CreateWithdrawalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCurrencysTable extends Migration
      */
     public function up()
     {
-        Schema::create('currencys', function (Blueprint $table) {
+        Schema::create('withdrawals', function (Blueprint $table) {
             $table->bigIncrements('id');
-            // $table->decimal('currency_rate', 10, 10);
-            $table->float('currency_rate');
+            $table->integer('withdraw_count');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateCurrencysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('currencys');
+        Schema::dropIfExists('withdrawals');
     }
 }

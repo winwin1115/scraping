@@ -38,7 +38,8 @@
                             @foreach($product_info as $i => $item)
                                 <tr>
                                     <td>{{$i + 1}}</td>
-                                    <td>{{ config('consts.site_type')[$item->site_type - 1]['title'] }}</td>
+                                    {{-- <td>{{ config('consts.site_type')[$item->site_type - 1]['title'] }}</td> --}}
+                                    <td>ヤフオク</td>
                                     <td>{{$item->site_url}}</td>
                                 </tr>
                             @endforeach

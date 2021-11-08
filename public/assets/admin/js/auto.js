@@ -1,4 +1,25 @@
 var Products = (function () {
+	var handleTables = function () {
+    	$('#remove-datatable').DataTable({
+			scrollX: true,
+            scrollCollapse: true,
+            language: {
+                oPaginate: {
+                    // sFirst: "初へ",
+                    sPrevious: "前へ",
+                    sNext: "次へ",
+                    // sLast: "後へ"
+                },
+                search: "検索",
+                lengthMenu: "表示 _MENU_ エントリ",
+                info: '表示中 _START_ まで _END_ の _TOTAL_ エントリ',
+                sEmptyTable: "テーブルにデータがありません。",
+				sZeroRecords: "該当する記録は見つかりません。"
+			}
+		});
+		// new $.fn.dataTable.FixedColumns( table, { rightColumns: 1 } );
+  	}
+	  
 	$('.delete-product').on('click', function() {
 		var _token = $('#token_hidden').val();
 		$.ajax({
@@ -11,18 +32,18 @@ var Products = (function () {
 				if(response['status'] == '200')
 				{
 					if(response["count"])
-						toastr['success'](response["count"] + 'つの商品が削除されました。', '成功');
+						toastr['success'](response["count"] + 'つの商品が取り下げされました。', '成功');
 					else
-						toastr['success']('削除された商品がありません。', '成功');
-					setTimeout('location.reload()', 2000);
+						toastr['success']('取り下げされた商品がありません。', '成功');
+					setTimeout('location.reload()', 5000);
 				}
 				else
 				{
-					toastr['error']('削除が失敗しました。', '失敗');
+					toastr['error']('取り下げが失敗しました。', '失敗');
 				}
 			},
 			error: function() {
-				toastr['error']('削除が失敗しました。', '失敗');
+				toastr['error']('取り下げが失敗しました。', '失敗');
 			}
 		})
 	});
@@ -30,7 +51,7 @@ var Products = (function () {
     return {
         // main function to initiate the module
         init: function () {
-            
+            handleTables();
         }
     }
 })()

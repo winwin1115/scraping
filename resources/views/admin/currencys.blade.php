@@ -20,12 +20,12 @@
                             {{ csrf_field() }}
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputFirstName">JPY(¥)</label>
-                                    <input type="text" class="form-control" id="inputFirstName" placeholder="1円" readonly disabled>
+                                    <label for="inputFirstName">USD($)</label>
+                                    <input type="text" class="form-control" id="inputFirstName" placeholder="1$" readonly disabled>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="inputFirstName">USD($)</label>
-                                    <input type="text" class="form-control" name="currency_rate" id="currency_rate" placeholder="$" value="{{ $currency_rate }}">
+                                    <label for="inputFirstName">JPY(¥)</label>
+                                    <input type="text" class="form-control" name="currency_rate" id="currency_rate" placeholder="¥" value="{{ $currency_rate }}¥">
                                 </div>
                             </div>
                             <button class="btn btn-danger" style="float: right;">保存</button>
