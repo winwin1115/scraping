@@ -20,8 +20,8 @@
                         <h6 style="color: #fff;"><i class="icon-fa icon-fa-briefcase"></i>自動取り下げ</h6>
                     </div>
                     <div class="card-body">
-                        <form>
-                            {{ csrf_field() }}
+                        {{-- <form> --}}
+                            {{-- {{ csrf_field() }} --}}
                             {{-- <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="start_date">商品登録期間(から)</label>
@@ -47,9 +47,9 @@
                                 </div>
                             </div>
                             <button class="btn btn-primary" style="float: right;"><i class="icon-fa icon-fa-cloud-upload" style="margin-right: 5px;"></i>自動出品</button> --}}
-                            <input type="hidden" value="{{ csrf_token() }}" id="token_hidden" />
+                            {{-- <input type="hidden" value="{{ csrf_token() }}" id="token_hidden" /> --}}
                             <button class="btn btn-danger delete-product" style="float: right; margin-right: 10px; color: #fff;"><i class="icon-fa icon-fa-trash" style="margin-right: 5px;"></i>自動削除</button>
-                        </form>
+                        {{-- </form> --}}
                     </div>
                 </div>
             </div>

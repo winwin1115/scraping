@@ -55,7 +55,7 @@ Route::group(['prefix' => 'auto'], function () {
         'as' => 'auto.createProduct', 'uses' => 'AutoFunController@createProduct'
     ]);
 
-    Route::post('/deleteProduct', [
+    Route::get('/deleteProduct', [
         'as' => 'auto.deleteProduct', 'uses' => 'AutoFunController@deleteProduct'
     ]);
 });
