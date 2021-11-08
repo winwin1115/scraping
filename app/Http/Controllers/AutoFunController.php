@@ -22,7 +22,6 @@ class AutoFunController extends Controller
     public function deleteProduct(Request $request)
     {
         $count = 0;
-        $this->removeProduct('12');
         // username and password for API
         $username = "d64689e91e479d726827b3730118355f";
         $password = "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";
@@ -124,12 +123,8 @@ class AutoFunController extends Controller
                         $count++;
                 }
             }
-            else
-            {
-                return response()->json(['status' => '500']);
-            }
-            return response()->json(['status' => '200', 'count' => $count]);
         }
+        return response()->json(['status' => '200', 'count' => $count]);
     }
 
     public function output($url)

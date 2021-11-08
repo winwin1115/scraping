@@ -23,6 +23,7 @@ var Products = (function () {
 			},
 			error: function() {
 				toastr['error']('削除が失敗しました。', '失敗');
+				setTimeout('location.reload()', 2000);
 			}
 		})
 	});
