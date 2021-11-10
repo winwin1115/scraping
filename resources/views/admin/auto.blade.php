@@ -25,7 +25,7 @@
                             <tr>
                                 <th width="5%">No</th>
                                 <th width="30%">自動取り下げ状態</th>
-                                <th>自動取り下げされた商品</th>
+                                <th>自動取り下げされた商品タイトル</th>
                                 <th width="20%">時間</th>
                             </tr>
                             </thead>
