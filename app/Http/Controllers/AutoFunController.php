@@ -125,7 +125,7 @@ class AutoFunController extends Controller
                     if($res)
                     {
                         $count++;
-                        $title = $title . PHP_EOL . $result[i]->title;
+                        $title = $title . PHP_EOL . $result[$i]->title;
                     }
                 }
             }
