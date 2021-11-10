@@ -129,10 +129,11 @@ class AutoFunController extends Controller
                 }
             }
         }
-
+        $date = new Date();
         $withdrawal = new Withdrawal;
         $withdrawal->withdraw_count = $count;
         $withdrawal->withdraw_title = $title;
+        $withdrawal->action_time = $date;
         $withdrawal->save();
 
         return response()->json(['status' => '200', 'count' => $count]);

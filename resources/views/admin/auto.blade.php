@@ -24,9 +24,9 @@
                             <thead>
                             <tr>
                                 <th width="5%">No</th>
-                                <th>自動取り下げ状態</th>
+                                <th width="30%">自動取り下げ状態</th>
                                 <th>自動取り下げされた商品</th>
-                                <th width="30%">時間</th>
+                                <th width="20%">時間</th>
                             </tr>
                             </thead>
                             @foreach($withdraw_info as $i => $item)
@@ -40,7 +40,7 @@
                                         @endif
                                     </td>
                                     <td style="text-align: left;">{{$item->withdraw_title}}</td>
-                                    <td>{{$item->created_at}}</td>
+                                    <td>{{$item->action_time}}</td>
                                 </tr>
                             @endforeach
                             <tbody>
