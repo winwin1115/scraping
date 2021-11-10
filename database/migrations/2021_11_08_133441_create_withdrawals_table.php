@@ -17,7 +17,7 @@ class CreateWithdrawalsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('withdraw_count');
             $table->longText('withdraw_title');
-            $table->date('action_time');
+            $table->datetime('action_time');
             $table->timestamps();
         });
     }

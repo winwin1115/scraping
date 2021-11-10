@@ -7,6 +7,8 @@ use App\Withdrawal;
 use DOMDocument;
 use DOMXPath;
 
+use Carbon\Carbon;
+
 class AutoFunController extends Controller
 {
     public function index()
@@ -24,7 +26,6 @@ class AutoFunController extends Controller
     {
         $count = 0;
         $title = '';
-        // username and password for API
         $username = "d64689e91e479d726827b3730118355f";
         $password = "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";
         $nextPage = NULL;
@@ -129,11 +130,11 @@ class AutoFunController extends Controller
                 }
             }
         }
-        $date = new Date();
+        $date = Carbon::now();
         $withdrawal = new Withdrawal;
         $withdrawal->withdraw_count = $count;
         $withdrawal->withdraw_title = $title;
-        $withdrawal->action_time = $date;
+        $withdrawal->action_time = $date->addHours(9);
         $withdrawal->save();
 
         return response()->json(['status' => '200', 'count' => $count]);
