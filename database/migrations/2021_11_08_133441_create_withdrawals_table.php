@@ -16,6 +16,7 @@ class CreateWithdrawalsTable extends Migration
         Schema::create('withdrawals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('withdraw_count');
+            $table->longText('withdraw_title');
             $table->timestamps();
         });
     }

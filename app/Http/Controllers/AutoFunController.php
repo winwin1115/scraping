@@ -23,6 +23,7 @@ class AutoFunController extends Controller
     public function deleteProduct(Request $request)
     {
         $count = 0;
+        $title = '';
         // username and password for API
         $username = "d64689e91e479d726827b3730118355f";
         $password = "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";
@@ -33,7 +34,7 @@ class AutoFunController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => "https://d64689e91e479d726827b3730118355f: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@japan-upc-wholesale.myshopify.com/admin/api/2021-10/products.json?fields=id,variants&limit=250",
+                CURLOPT_URL => "https://d64689e91e479d726827b3730118355f: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@japan-upc-wholesale.myshopify.com/admin/api/2021-10/products.json?fields=id,title,variants&limit=250",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -121,14 +122,18 @@ class AutoFunController extends Controller
                 {
                     $res = $this->removeProduct($result[$i]->id);
                     if($res)
+                    {
                         $count++;
+                        $title = $title . PHP_EOL . $result[i]->title;
+                    }
                 }
             }
         }
 
-        $withdrawl = new Withdrawal;
-        $withdrawl->withdraw_count = $count;
-        $withdrawl->save();
+        $withdrawal = new Withdrawal;
+        $withdrawal->withdraw_count = $count;
+        $withdrawal->withdraw_title = $title;
+        $withdrawal->save();
 
         return response()->json(['status' => '200', 'count' => $count]);
     }

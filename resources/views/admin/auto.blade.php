@@ -25,6 +25,7 @@
                             <tr>
                                 <th width="5%">No</th>
                                 <th>自動取り下げ状態</th>
+                                <th>自動取り下げされた商品</th>
                                 <th width="30%">時間</th>
                             </tr>
                             </thead>
@@ -35,9 +36,10 @@
                                         @if ($item->withdraw_count)
                                             {{$item->withdraw_count}}つの商品が取り下げされました。
                                         @else
-                                            取り下げされた用品がありません。
+                                            取り下げされた商品がありません。
                                         @endif
                                     </td>
+                                    <td>{{$item->withdraw_title}}</td>
                                     <td>{{$item->created_at}}</td>
                                 </tr>
                             @endforeach
