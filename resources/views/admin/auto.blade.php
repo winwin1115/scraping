@@ -39,7 +39,7 @@
                                             取り下げされた商品がありません。
                                         @endif
                                     </td>
-                                    <td>{{$item->withdraw_title}}</td>
+                                    <td style="text-align: left;">{{$item->withdraw_title}}</td>
                                     <td>{{$item->created_at}}</td>
                                 </tr>
                             @endforeach
