@@ -115,7 +115,7 @@ class AutoFunController extends Controller
             $soldout_temp = $pokemon_xpath->query('//div[@class="ClosedHeader"]//div[class="ClosedHeader__tag"]//p[text() = "このオークションは終了しています"]');
             if(!is_null($soldout_temp))
             {
-                echo '1';
+                var_dump($soldout_temp);
                 var_dump($result[$i]->id);
                 // $res = $this->removeProduct($result[$i]->id);
                 // if($res)
