@@ -118,23 +118,16 @@ class AutoFunController extends Controller
             if(!is_null($soldout_temp))
             {
                 foreach ($soldout_temp as $item) {
-                    var_dump($item->nodeValue);
                     if($item->nodeValue == 'このオークションは終了しています')
                     {
-                        // $res = $this->removeProduct($result[$i]->id);
-                        // if($res)
-                        // {
-                        //     $count++;
-                        //     $title = $title . PHP_EOL . $result[$i]->title;
-                        // }
+                        $res = $this->removeProduct($result[$i]->id);
+                        if($res)
+                        {
+                            $count++;
+                            $title = $title . PHP_EOL . $result[$i]->title;
+                        }
                     }
                 }
-                // $res = $this->removeProduct($result[$i]->id);
-                // if($res)
-                // {
-                //     $count++;
-                //     $title = $title . PHP_EOL . $result[$i]->title;
-                // }
             }
             else {
                 $url_temp = $pokemon_xpath->query('//div[@class="l-left"]//ul[@class="ProductDetail__items ProductDetail__items--primary"]//li[@class="ProductDetail__item"]//dl//dd[@class="ProductDetail__description"]/text()');
@@ -145,25 +138,22 @@ class AutoFunController extends Controller
                     
                     if(!$amount)
                     {
-                        echo '2';
-                        var_dump($result[$i]->id);
-                        // $res = $this->removeProduct($result[$i]->id);
-                        // if($res)
-                        // {
-                        //     $count++;
-                        //     $title = $title . PHP_EOL . $result[$i]->title;
-                        // }
+                        $res = $this->removeProduct($result[$i]->id);
+                        if($res)
+                        {
+                            $count++;
+                            $title = $title . PHP_EOL . $result[$i]->title;
+                        }
                     }
                 }
             }
         }
-        // $date = Carbon::now();
-        // $withdrawal = new Withdrawal;
-        // $withdrawal->withdraw_count = $count;
-        // $withdrawal->withdraw_title = $title;
-        // $withdrawal->action_time = $date->addHours(9);
-        // $withdrawal->save();
-        dd('ss');
+        $date = Carbon::now();
+        $withdrawal = new Withdrawal;
+        $withdrawal->withdraw_count = $count;
+        $withdrawal->withdraw_title = $title;
+        $withdrawal->action_time = $date->addHours(9);
+        $withdrawal->save();
         return response()->json(['status' => '200', 'count' => $count]);
     }
 
