@@ -100,7 +100,7 @@ class AutoFunController extends Controller
         };
         curl_close($curl);
         
-        for($i = 0; $i < count($result); $i++)
+        for($i = 0; $i < 10; $i++)
         {
             $variants = $result[$i]->variants;
 
@@ -112,10 +112,12 @@ class AutoFunController extends Controller
             libxml_clear_errors();
 
             $pokemon_xpath = new DOMXPath($pokemon_doc);
-            $soldout_temp = $pokemon_xpath->query('//div[@class="ClosedHeader"]//div[class="ClosedHeader__tag"]//p');
+            echo $pokemon_xpath;
+            $soldout_temp = $pokemon_xpath->query('//div[@class="ClosedHeader"]//div[class="ClosedHeader__tag"]//p/text()');
             if(!is_null($soldout_temp))
             {
                 foreach ($soldout_temp as $item) {
+                    var_dump($item);
                     var_dump($item->nodeValue);
                     if($item->nodeValue == 'このオークションは終了しています')
                     {
