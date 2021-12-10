@@ -112,7 +112,7 @@ class AutoFunController extends Controller
             libxml_clear_errors();
 
             $pokemon_xpath = new DOMXPath($pokemon_doc);
-            echo $pokemon_xpath;
+            var_dump($pokemon_xpath);
             $soldout_temp = $pokemon_xpath->query('//div[@class="ClosedHeader"]//div[class="ClosedHeader__tag"]//p/text()');
             if(!is_null($soldout_temp))
             {
