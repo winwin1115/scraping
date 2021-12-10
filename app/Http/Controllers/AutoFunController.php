@@ -102,7 +102,7 @@ class AutoFunController extends Controller
         };
         curl_close($curl);
         
-        for($i = 0; $i < 10; $i++)
+        for($i = 0; $i < count($result); $i++)
         {
             $variants = $result[$i]->variants;
 
