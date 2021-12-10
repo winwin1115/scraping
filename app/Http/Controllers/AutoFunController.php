@@ -118,7 +118,7 @@ class AutoFunController extends Controller
             if(!is_null($soldout_temp))
             {
                 foreach ($soldout_temp as $item) {
-                    var_dump($item);
+                    var_dump($item->nodeValue);
                     if($item->nodeValue == 'このオークションは終了しています')
                     {
                         // $res = $this->removeProduct($result[$i]->id);
@@ -129,7 +129,6 @@ class AutoFunController extends Controller
                         // }
                     }
                 }
-                var_dump($result[$i]->id);
                 // $res = $this->removeProduct($result[$i]->id);
                 // if($res)
                 // {
