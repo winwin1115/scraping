@@ -7,6 +7,8 @@ use App\Withdrawal;
 use DOMDocument;
 use DOMXPath;
 
+use Illuminate\Support\Facades\Log;
+
 use Carbon\Carbon;
 
 class AutoFunController extends Controller
@@ -112,13 +114,11 @@ class AutoFunController extends Controller
             libxml_clear_errors();
 
             $pokemon_xpath = new DOMXPath($pokemon_doc);
-            var_dump($pokemon_xpath);
-            $soldout_temp = $pokemon_xpath->query('//div[@class="ClosedHeader"]//div[class="ClosedHeader__tag"]//p/text()');
+            $soldout_temp = $pokemon_xpath->query('//p[text() = "このオークションは終了しています"]');
             if(!is_null($soldout_temp))
             {
                 foreach ($soldout_temp as $item) {
                     var_dump($item);
-                    var_dump($item->nodeValue);
                     if($item->nodeValue == 'このオークションは終了しています')
                     {
                         // $res = $this->removeProduct($result[$i]->id);
