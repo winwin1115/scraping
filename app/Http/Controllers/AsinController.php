@@ -385,7 +385,7 @@ class AsinController extends Controller
         if(!is_null($grams_temp))
         {
             foreach($grams_temp as $item)
-            $data['variant_grams'] = $item->nodeValue;
+                $data['variant_grams'] = $item->nodeValue;
         }
         else
             $data['variant_grams'] = '0';
