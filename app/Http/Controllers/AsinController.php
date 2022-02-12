@@ -365,6 +365,7 @@ class AsinController extends Controller
         $data['tags'] = '';
         $type_array = [];
         $type_temp = $pokemon_xpath->query('span[@class="nav-a-content"]/text()]');
+        dd($type_temp);
         if(!is_null($type_temp))
         {
             foreach($type_temp as $item)
