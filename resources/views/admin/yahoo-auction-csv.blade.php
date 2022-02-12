@@ -28,7 +28,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="home3" role="tabpanel">
-                                    <form action="{{ route('csv.putDateCsv') }}" method="post">
+                                    <form action="{{ route('csv.yahoo-auction.putDateCsv') }}" method="post">
                                         {{ csrf_field() }}
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
@@ -58,7 +58,7 @@
                                     </form>
                                 </div>
                                 <div class="tab-pane" id="profile3" role="tabpanel">
-                                    <form action="{{ route('csv.putPageCsv') }}" method="post">
+                                    <form action="{{ route('csv.yahoo-auction.putPageCsv') }}" method="post">
                                         {{ csrf_field() }}
                                         <div class="form-row">
                                             <div class="form-group col-md-12">

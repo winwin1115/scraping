@@ -23,7 +23,7 @@ class ProfitsController extends Controller
     public function index()
     {
         $urls = Urls::all();
-        return view('admin.csv')->with(['urls' => $urls]);
+        return view('admin.yahoo-auction-csv')->with(['urls' => $urls]);
     }
 
     public function putDateCsv(Request $request)

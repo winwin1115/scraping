@@ -17,10 +17,22 @@ return [
 
     'sidebar' => [
         [
-            'title' => '商品ページURL登録',
-            'link' => '/urls',
-            'active' => 'urls',
+            'title' => 'データ登録',
+            'link' => '#',
+            'active' => 'data*',
             'icon' => 'icon-fa icon-fa-shopping-cart',
+            'children' => [
+                [
+                    'title' => '商品URL登録(ヤフオク)',
+                    'link' => '/data/urls',
+                    'active' => 'data/urls',
+                ],
+                [
+                    'title' => 'ASINコード登録(Amazon)',
+                    'link' => '/data/asins',
+                    'active' => 'data/asins',
+                ],
+            ]
         ],
         [
             'title' => '換率, 利益率設定',
@@ -30,9 +42,21 @@ return [
         ],
         [
             'title' => 'CSV生成',
-            'link' => '/csv',
-            'active' => 'csv',
+            'link' => '#',
+            'active' => 'csv*',
             'icon' => 'icon-fa icon-fa-cloud-download',
+            'children' => [
+                [
+                    'title' => 'ヤフオク',
+                    'link' => '/csv/yahoo-auction',
+                    'active' => 'csv/yahoo-auction'
+                ],
+                [
+                    'title' => 'Amazon',
+                    'link' => '/csv/amazon',
+                    'active' => 'csv/amazon'
+                ],
+            ]
         ],
         [
             'title' => '自動取り下げ',

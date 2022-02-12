@@ -12,13 +12,25 @@ Route::get('/', [
     'as' => 'home', 'uses' => 'UrlsController@home'
 ]);
 
-Route::group(['prefix' => 'urls'], function () {
-    Route::get('/', [
-        'as' => 'urls', 'uses' => 'UrlsController@index'
+Route::group(['prefix' => 'data'], function () {
+    Route::get('/urls', [
+        'as' => 'data.urls', 'uses' => 'UrlsController@index'
     ]);
     
-    Route::post('/add', [
-        'as' => 'urls.add', 'uses' => 'UrlsController@addProduct'
+    Route::post('/urls-add', [
+        'as' => 'data.urls.add', 'uses' => 'UrlsController@addProduct'
+    ]);
+
+    Route::get('/asins', [
+        'as' => 'data.asins', 'uses' => 'AsinController@index'
+    ]);
+
+    Route::post('/asins-add', [
+        'as' => 'data.asins.add', 'uses' => 'AsinController@addAsins'
+    ]);
+
+    Route::post('/asins-delete', [
+        'as' => 'data.asins.delete', 'uses' => 'AsinController@deleteAsin'
     ]);
 });
 
@@ -37,16 +49,28 @@ Route::group(['prefix' => 'currencys'], function () {
 });
 
 Route::group(['prefix' => 'csv'], function () {
-    Route::get('/', [
-        'as' => 'csv', 'uses' => 'ProfitsController@index'
+    Route::get('/yahoo-auction', [
+        'as' => 'csv.yahoo-auction', 'uses' => 'ProfitsController@index'
     ]);
 
-    Route::post('/putDateCsv', [
-        'as' => 'csv.putDateCsv', 'uses' => 'ProfitsController@putDateCsv'
+    Route::post('/yahoo-auction/putDateCsv', [
+        'as' => 'csv.yahoo-auction.putDateCsv', 'uses' => 'ProfitsController@putDateCsv'
     ]);
 
-    Route::post('/putPageCsv', [
-        'as' => 'csv.putPageCsv', 'uses' => 'ProfitsController@putPageCsv'
+    Route::post('/yahoo-auction/putPageCsv', [
+        'as' => 'csv.yahoo-auction.putPageCsv', 'uses' => 'ProfitsController@putPageCsv'
+    ]);
+
+    Route::get('/amazon', [
+        'as' => 'csv.amazon', 'uses' => 'AsinController@viewCsvData'
+    ]);
+
+    Route::post('/amazon/getimport', [
+        'as' => 'csv.amazon.getimport', 'uses' => 'AsinController@getImportName'
+    ]);
+
+    Route::post('/amazon/putAsinCsv', [
+        'as' => 'csv.amazon.putAsinCsv', 'uses' => 'AsinController@putAsinCsv'
     ]);
 });
 

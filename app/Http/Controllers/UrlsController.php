@@ -10,7 +10,7 @@ class UrlsController extends Controller
 {
     public function home()
     {
-        return redirect()->route('urls');
+        return redirect()->route('data.urls');
     }
 
     public function index()
