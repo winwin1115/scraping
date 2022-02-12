@@ -382,6 +382,7 @@ class AsinController extends Controller
         $data['option3_value'] = '';
         $data['variant_sku'] = $href;
         $grams_temp = $pokemon_xpath->query('tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() == " 商品の重量 "]/td/text()');
+        dd($grams_temp);
         if(!is_null($grams_temp))
         {
             foreach($grams_temp as $item)
