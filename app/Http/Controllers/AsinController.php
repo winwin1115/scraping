@@ -7,6 +7,7 @@ use App\Currencys;
 use App\Profits;
 use App\Asin;
 
+use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
 
@@ -48,7 +49,13 @@ class AsinController extends Controller
 
     public function viewCsvData()
     {
-        return view('admin.amazon-csv');
+        $date = Carbon::now();
+        $import_name = Asin::where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($date)))
+            ->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($date)))
+            ->selectRaw('MAX(import_name) as import_name')
+            ->groupBy('import_name')
+            ->get();
+        return view('admin.amazon-csv')->with(['import_name' => $import_name]);
     }
 
     public function getimportName(Request $request)

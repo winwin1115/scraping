@@ -38,7 +38,9 @@
                                     <label for="import_name">インポート名</label>
                                     <div class="import_div">
                                         <select class="form-control ls-select2" style="width: 100%;" id="import_name" name="import_name" placeholder="インポート名を選択してください。">
-                                            <option value="">インポート名</option>
+                                            @foreach ($import_name as $item)
+                                                <option value="{{ $item->import_name }}">{{ $item->import_name }}</option>
+                                            @endforeach                                            
                                         </select>
                                     </div>
                                 </div>

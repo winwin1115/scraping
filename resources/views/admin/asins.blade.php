@@ -20,7 +20,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h6><i class="icon-fa icon-fa-shopping-cart"></i>商品</h6>
+                        <h6><i class="icon-fa icon-fa-shopping-cart"></i>ASIN</h6>
 
                         <div class="card-actions">
 
@@ -66,7 +66,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>商品のURL</label>
+                        <label>ASINコード</label>
                         <textarea id="add_asin" rows="15" value="" class="form-control" style="margin-bottom: 15px;"></textarea>
 
                         <input type="hidden" id="token_hidden" value="" />
