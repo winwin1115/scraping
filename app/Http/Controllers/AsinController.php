@@ -10,6 +10,7 @@ use App\Asin;
 use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
+use Illuminate\Support\Facades\Log;
 
 class AsinController extends Controller
 {
@@ -233,7 +234,7 @@ class AsinController extends Controller
     {
         $url = 'https://www.amazon.co.jp/dp/' . $asin;
         $output = $this->output($url);
-        $result = $this->makeDoc($output, $url, $currency_rate, $profit_rate);
+        $result = $this->makeDoc($output, $asin, $url, $currency_rate, $profit_rate);
         array_push($this->final_data, $result);
         
         return $this->final_data;
@@ -274,7 +275,7 @@ class AsinController extends Controller
         return $output;
     }
 
-    public function makeDoc($output, $href, $currency_rate, $profit_rate)
+    public function makeDoc($output, $asin, $href, $currency_rate, $profit_rate)
     {
         $data = [];
 
@@ -286,11 +287,11 @@ class AsinController extends Controller
         $pokemon_xpath = new DOMXPath($pokemon_doc);
 
         $title = '';
-        $title_temp = $pokemon_xpath->query('span[@id="productTitle"]/text()');
+        $title_temp = $pokemon_xpath->query('//div[@id="titleSection"]//span[@id="productTitle"]/text()');
         if(!is_null($title_temp))
         {
             foreach($title_temp as $item)
-                $title = $item->nodeValue;
+                $title = trim($item->nodeValue);
         }
         else
             $title = '';
@@ -364,17 +365,14 @@ class AsinController extends Controller
         $data['type'] = '';
         $data['tags'] = '';
         $type_array = [];
-        $type_temp = $pokemon_xpath->query('span[@class="nav-a-content"]/text()]');
-        var_dump($output);
-        dd($href);
+        $type_temp = $pokemon_xpath->query('//div[@id="nav-subnav"]//a//span[@class="nav-a-content"]/text()');
         if(!is_null($type_temp))
         {
             foreach($type_temp as $item)
                 array_push($type_array, $item->nodeValue);
-            $data['type'] = $type_array[0];
-            $data['tags'] = $type_array[0];
+            $data['type'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
+            $data['tags'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
         }
-
         $data['published'] = 'TRUE';
         $data['option1_name'] = 'Title';
         $data['option1_value'] = 'Default Title';
@@ -383,28 +381,43 @@ class AsinController extends Controller
         $data['option3_name'] = '';
         $data['option3_value'] = '';
         $data['variant_sku'] = $href;
-        $grams_temp = $pokemon_xpath->query('tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() == " 商品の重量 "]/td/text()');
-        dd($grams_temp);
+
+        $grams_temp = $pokemon_xpath->query('//div[@class="a-expander-content a-expander-section-content a-section-expander-inner"]//table//tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() = " Product Dimensions "]/td/text()');
         if(!is_null($grams_temp))
         {
             foreach($grams_temp as $item)
-                $data['variant_grams'] = $item->nodeValue;
+                $data['variant_grams'] = explode(';', $item->nodeValue)[1];
+            $data['variant_grams'] = trim(explode('g', $data['variant_grams'])[0]);
         }
         else
             $data['variant_grams'] = '0';
+
         $data['variant_inventory_tracker'] = 'shopify';
         $data['variant_qty'] = '3';
         $data['variant_inventory_policy'] = 'deny';
         $data['variant_fullfillment_service'] = 'manual';
 
+        // Price
+        // $price_url = "https://www.amazon.co.jp/s?k=" . $asin . "&__mk_ja_JP=カタカナ&ref=nb_sb_noss";
+        // $price_out = $this->output($price_url);
+        // $price_doc = new DOMDocument;
+        // libxml_use_internal_errors(true);
+        // $price_doc->loadHTML($price_out);
+        // libxml_clear_errors();
+
+        // $price_xpath = new DOMXPath($price_doc);
         $price = '';
         $price_array = [];
-        $price_temp = $pokemon_xpath->query('span[@class="a-price-whole"]/text()');
+        $price_temp = $pokemon_xpath->query('/html/body/div[@id="a-page"]/div');
         if(!is_null($price_temp))
         {
             foreach($price_temp as $item)
+            {
+                var_dump($item->getAttribute('id'));
+                var_dump($item->getAttribute('class'));
                 $price = $item->nodeValue;
-
+            }
+            dd('dd');
             $price = str_replace($price, ',', '');
 
             $data['variant_price'] = $price * $currency_rate * $profit_rate;
@@ -421,8 +434,7 @@ class AsinController extends Controller
         $data['variant_barcode'] = '';
         $data['image_src'] = [];
         $data['image_position'] = [];
-        $image_src_temp = $pokemon_xpath->query('li[@class="a-spacing-small item imageThumbnail a-declarative"]//img');
-
+        $image_src_temp = $pokemon_xpath->query('//div[@id="altImages"]//ul//li[@class="a-spacing-small item"]//img');
         if(!is_null($image_src_temp))
         {
             foreach($image_src_temp as $index => $item)
