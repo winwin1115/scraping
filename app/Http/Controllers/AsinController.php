@@ -364,20 +364,14 @@ class AsinController extends Controller
         $data['variant_fullfillment_service'] = 'manual';
 
         $price = '';
-        $price_array = [];
         $price_temp = [];
-        $price_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div[@class="a-section a-spacing-micro"]//span');
+        $price_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div[@class="a-section a-spacing-micro"]//span[@class="a-offscreen"]/text()');
         if(count($price_temp))
         {
             foreach($price_temp as $item)
+                $price_value = $item->nodeValue;
+            if($price_value)
             {
-                var_dump($item->getAttribute('class'));
-                array_push($price_array, $item->nodeValue);
-            }
-            dd('ddd');
-            if(count($price_array))
-            {
-                $price = $price_array[count($price_array) - 1];
                 $price = explode("¥", $price)[1];
                 $price = trim(str_replace(',', '', $price));
                 $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
@@ -386,6 +380,7 @@ class AsinController extends Controller
         }
         else
         {
+            dd($href);
             $data['variant_price'] = '';
             $data['variant_compare_price'] = '';
         }
