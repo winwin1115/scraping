@@ -368,6 +368,7 @@ class AsinController extends Controller
         $price1_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div[@class="a-section a-spacing-micro"]//span[@class="a-offscreen"]/text()');
         $price2_temp = $pokemon_xpath->query('//span[@class="a-size-mini olpWrapper"]');
         $price3_temp = $pokemon_xpath->query('//div[@id="olp_feature_div"]//span[@class="a-size-base a-color-price"]/text()');
+        $no_price_temp = $pokemon_xpath->query('//div[@class="a-section a-spacing-small a-text-center"]//span[@class="a-color-price a-text-bold"]/text()');
         if(count($price1_temp))
         {
             $price_value = '';
@@ -407,12 +408,25 @@ class AsinController extends Controller
                 $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
             }
         }
+        else if(count($no_price_temp))
+        {
+            $price_value = '';
+            foreach($no_price_temp as $item)
+            {
+                if($item->nodeValue == 'Currently unavailable.')
+                {
+                    $data['variant_price'] = 0;
+                    $data['variant_compare_price'] = 0;
+                }
+            }
+            
+        }
         else
         {
             Log::error($output);
             dd($href);
-            $data['variant_price'] = '';
-            $data['variant_compare_price'] = '';
+            $data['variant_price'] = 0;
+            $data['variant_compare_price'] = 0;
         }
         
         $data['variant_shipping'] = 'TRUE';
