@@ -366,11 +366,15 @@ class AsinController extends Controller
         $price = '';
         $price_array = [];
         $price_temp = [];
-        $price_temp = $pokemon_xpath->query('//span[@class="a-size-mini olpMessageWrapper"]/text()');
+        $price_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div');
         if(count($price_temp))
         {
             foreach($price_temp as $item)
+            {
+                var_dump($item->getAttribute('class'));
                 array_push($price_array, $item->nodeValue);
+            }
+            dd('ddd');
             if(count($price_array))
             {
                 $price = $price_array[count($price_array) - 1];
