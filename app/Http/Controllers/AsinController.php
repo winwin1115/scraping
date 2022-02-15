@@ -367,6 +367,7 @@ class AsinController extends Controller
         $price_va_array = [];
         $price1_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div[@class="a-section a-spacing-micro"]//span[@class="a-offscreen"]/text()');
         $price2_temp = $pokemon_xpath->query('//span[@class="a-size-mini olpWrapper"]');
+        $price3_temp = $pokemon_xpath->query('//div[@id="olp_feature_div"]//span[@class="a-size-base a-color-price"]/text()');
         if(count($price1_temp))
         {
             foreach($price1_temp as $item)
@@ -386,6 +387,19 @@ class AsinController extends Controller
             if(count($price_va_array))
             {
                 $price = explode("¥", $price_va_array[0])[1];
+                $price = trim(str_replace(',', '', $price));
+                $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+            }
+        }
+        else if(count($price3_temp))
+        {
+            $price_value = '';
+            foreach($price3_temp as $item)
+                $price_value = $item->nodeValue;
+            if($price_value)
+            {
+                $price = explode("¥", $price_value)[1];
                 $price = trim(str_replace(',', '', $price));
                 $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
                 $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
