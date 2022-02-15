@@ -364,6 +364,7 @@ class AsinController extends Controller
 
         $price = '';
         $price_array = [];
+        $price_temp = [];
         $price_temp = $pokemon_xpath->query('//span[@class="a-size-mini olpMessageWrapper"]/text()');
         if(count($price_temp))
         {
@@ -380,6 +381,7 @@ class AsinController extends Controller
         }
         else
         {
+            dd($href);
             $data['variant_price'] = '';
             $data['variant_compare_price'] = '';
         }
