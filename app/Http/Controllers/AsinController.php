@@ -381,7 +381,6 @@ class AsinController extends Controller
         }
         else
         {
-            dd($href);
             $data['variant_price'] = '';
             $data['variant_compare_price'] = '';
         }
