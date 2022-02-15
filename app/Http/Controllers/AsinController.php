@@ -345,13 +345,13 @@ class AsinController extends Controller
         $data['option3_value'] = '';
         $data['variant_sku'] = $href;
 
-        $grams_array = [];
+        $grams_temp = [];
         $grams_temp = $pokemon_xpath->query('//div[@class="a-expander-content a-expander-section-content a-section-expander-inner"]//table//tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() = " Product Dimensions "]/td/text()');
         if(count($grams_temp))
         {
             foreach($grams_temp as $item)
                 $grams_array = explode(';', $item->nodeValue)[1];
-            if(count($grams_array))
+            if($grams_array)
                 $data['variant_grams'] = trim(explode('g', $grams_array)[0]);
         }
         else
