@@ -236,6 +236,7 @@ class AsinController extends Controller
     {
         $url = 'https://www.amazon.co.jp/dp/' . $asin;
         $output = $this->output($url);
+        Log::error($output);
         $result = $this->makeDoc($output, $asin, $url, $currency_rate, $profit_rate);
         array_push($this->final_data, $result);
         
