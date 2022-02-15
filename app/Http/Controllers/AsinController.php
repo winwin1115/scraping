@@ -372,7 +372,7 @@ class AsinController extends Controller
                 $price_value = $item->nodeValue;
             if($price_value)
             {
-                $price = explode("¥", $price)[1];
+                $price = explode("¥", $price_value)[1];
                 $price = trim(str_replace(',', '', $price));
                 $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
                 $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
