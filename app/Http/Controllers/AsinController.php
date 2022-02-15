@@ -234,7 +234,7 @@ class AsinController extends Controller
 
     public function makeCsvData($asin, $currency_rate, $profit_rate)
     {
-        $url = 'https://www.amazon.co.jp/dp/' . $asin . '?language=ja_JP';
+        $url = 'https://www.amazon.co.jp/dp/' . $asin . '?language=en_US';
         $output = $this->output($url);
         $result = $this->makeDoc($output, $asin, $url, $currency_rate, $profit_rate);
         array_push($this->final_data, $result);
