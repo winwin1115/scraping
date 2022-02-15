@@ -374,7 +374,6 @@ class AsinController extends Controller
             $price_value = '';
             foreach($price1_temp as $item)
                 $price_value = $item->nodeValue;
-            var_dump($href);
             if($price_value)
             {
                 $price = explode("¥", $price_value)[1];
@@ -424,7 +423,6 @@ class AsinController extends Controller
         else
         {
             Log::error($output);
-            dd($href);
             $data['variant_price'] = 0;
             $data['variant_compare_price'] = 0;
         }
