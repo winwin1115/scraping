@@ -365,8 +365,24 @@ class AsinController extends Controller
         $price = '';
         $price_temp = [];
         $price1_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div[@class="a-section a-spacing-micro"]//span[@class="a-offscreen"]/text()');
-        $price2_temp = $pokemon_xpath->query('//div[@class="twisterSlotDiv "]');
-        dd($price2_temp);
+        $price2_temp = $pokemon_xpath->query('//div[@class="twisterSlotDiv "][0]//span');
+        if(count($price2_temp))
+        {
+            foreach($price2_temp as $item)
+            {
+                var_dump($item->getAttribute('id'));
+                $price_value = $item->nodeValue;
+            }
+            if($price_value)
+            {
+                $price = explode("¥", $price_value)[1];
+                $price = trim(str_replace(',', '', $price));
+                $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+            }
+            dd($price);
+        }
+        dd('end');
         if(count($price1_temp))
         {
             foreach($price1_temp as $item)
