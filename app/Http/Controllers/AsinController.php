@@ -370,8 +370,10 @@ class AsinController extends Controller
         $price3_temp = $pokemon_xpath->query('//div[@id="olp_feature_div"]//span[@class="a-size-base a-color-price"]/text()');
         if(count($price1_temp))
         {
+            $price_value = '';
             foreach($price1_temp as $item)
                 $price_value = $item->nodeValue;
+            var_dump($href);
             if($price_value)
             {
                 $price = explode("¥", $price_value)[1];
