@@ -10,6 +10,8 @@ use App\Asin;
 use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
+use Goutte\Client;
+use Symfony\Component\HttpClient\HttpClient;
 use Illuminate\Support\Facades\Log;
 
 class AsinController extends Controller
@@ -312,50 +314,11 @@ class AsinController extends Controller
         $body_array = [];
         $body_text = '';
         $tran_word = '';
-        $body_temp = $pokemon_xpath->query('table[@id="productDetails_techSpec_section_1"]/tr/td/text()');
-        if(!is_null($body_temp))
+        $body_temp = $pokemon_xpath->query('//div[@id="productDetails_feature_div"]//table[@id="productDetails_techSpec_section_1"]');
+        if(count($body_temp))
         {
             foreach($body_temp as $item)
-            {
-                if(strpos($body_text, '。'))
-                {
-                    if($this->tran_count == 100)
-                    {
-                        sleep(60);
-                        $this->tran_count = 0;
-                    }
-                    $tran_word .= $this->translateTitle($body_text) . ' | ';
-                    $this->tran_count++;
-                    $body_text = '';
-                }
-                $body_text = $body_text . $item->nodeValue . '。';
-            }
-
-            $body_array = explode(' | ', $tran_word);
-
-            $data['body'] = "<table><tbody>";
-            
-            for($p = 1; $p < count($body_array); $p++)
-            {
-                var_dump($body_array[$p]);
-                // if($body_array[$p] == 'Performance ranking.' || $body_array[$p] == 'Recommendation of store manager.' || $body_array[$p] == 'Recommended point.' || $body_array[$p] == 'Manufacturer.' || $body_array[$p] == 'Model number.' || $body_array[$p] == 'CPU?' || $body_array[$p] == 'memory.' || $body_array[$p] == 'HDD?' || $body_array[$p] == 'Mounted drive.' || $body_array[$p] == 'display.' || $body_array[$p] == 'LAN.' || $body_array[$p] == 'Wireless LAN.' || $body_array[$p] == 'Interface.' || $body_array[$p] == 'Product seal.' || $body_array[$p] == 'recovery.' || $body_array[$p] == 'accessories?' || $body_array[$p] == 'liquid crystal.' || $body_array[$p] == 'Top cover.' || $body_array[$p] == 'keyboard.' || $body_array[$p] == 'Palm rest.' || $body_array[$p] == 'battery.' || $body_array[$p] == 'Operation confirmation.' || $body_array[$p] == 'others.')
-                // {
-                //     if(substr($body_array[$p], -1) == '.' || substr($body_array[$p], -1) == '?')
-                //         $body_array[$p] = mb_substr($body_array[$p], 0, -1);
-                //     $data['body'] .= "</td></tr>";
-                //     $data['body'] .= PHP_EOL;
-                //     $data['body'] .= "<tr><td align='center' width='30%'>" . ucfirst($body_array[$p]) . "</td><td align='left' width='70%'>";
-                // }
-                // elseif($body_array[$p] == 'YOU.')
-                // {
-                //     $data['body'] .= "<tr><td align='center' width='30%'>OS</td>";
-                // }
-                // else
-                // {
-                //     $data['body'] .= $body_array[$p] . '. ';
-                // }
-            }
-            $data['body'] .= "</tbody></table>";
+                $data['body'] = $item->C14N();
         }
         else
             $data['body'] = '';
@@ -382,12 +345,14 @@ class AsinController extends Controller
         $data['option3_value'] = '';
         $data['variant_sku'] = $href;
 
+        $grams_array = [];
         $grams_temp = $pokemon_xpath->query('//div[@class="a-expander-content a-expander-section-content a-section-expander-inner"]//table//tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() = " Product Dimensions "]/td/text()');
-        if(!is_null($grams_temp))
+        if(count($grams_temp))
         {
             foreach($grams_temp as $item)
-                $data['variant_grams'] = explode(';', $item->nodeValue)[1];
-            $data['variant_grams'] = trim(explode('g', $data['variant_grams'])[0]);
+                $grams_array = explode(';', $item->nodeValue)[1];
+            if(count($grams_array))
+                $data['variant_grams'] = trim(explode('g', $grams_array)[0]);
         }
         else
             $data['variant_grams'] = '0';
@@ -397,31 +362,21 @@ class AsinController extends Controller
         $data['variant_inventory_policy'] = 'deny';
         $data['variant_fullfillment_service'] = 'manual';
 
-        // Price
-        // $price_url = "https://www.amazon.co.jp/s?k=" . $asin . "&__mk_ja_JP=カタカナ&ref=nb_sb_noss";
-        // $price_out = $this->output($price_url);
-        // $price_doc = new DOMDocument;
-        // libxml_use_internal_errors(true);
-        // $price_doc->loadHTML($price_out);
-        // libxml_clear_errors();
-
-        // $price_xpath = new DOMXPath($price_doc);
         $price = '';
         $price_array = [];
-        $price_temp = $pokemon_xpath->query('/html/body/div[@id="a-page"]/div');
-        if(!is_null($price_temp))
+        $price_temp = $pokemon_xpath->query('//span[@class="a-size-mini olpMessageWrapper"]/text()');
+        if(count($price_temp))
         {
             foreach($price_temp as $item)
+                array_push($price_array, $item->nodeValue);
+            if(count($price_array))
             {
-                var_dump($item->getAttribute('id'));
-                var_dump($item->getAttribute('class'));
-                $price = $item->nodeValue;
+                $price = $price_array[count($price_array) - 1];
+                $price = explode("¥", $price)[1];
+                $price = trim(str_replace(',', '', $price));
+                $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
             }
-            dd('dd');
-            $price = str_replace($price, ',', '');
-
-            $data['variant_price'] = $price * $currency_rate * $profit_rate;
-            $data['variant_compare_price'] = $price * $currency_rate * 1.1;
         }
         else
         {
@@ -461,7 +416,7 @@ class AsinController extends Controller
         $data['variant_image'] = '';
         $data['variant_weight_unit'] = 'g';
         $data['variant_tax_code'] = '';
-        $data['variant_cost_per_item'] = $price * $currency_rate;
+        $data['variant_cost_per_item'] = (float)$price * $currency_rate;
         $data['status'] = 'active';
         $data['standard_product_type'] = '';
         $data['custom_product_type'] = 'Computer';
