@@ -327,40 +327,40 @@ class AsinController extends Controller
 
         $data['type'] = '';
         $data['tags'] = '';
-        $type_array = [];
-        $type_temp = $pokemon_xpath->query('//div[@id="nav-subnav"]//a//span[@class="nav-a-content"]/text()');
-        if(!is_null($type_temp))
-        {
-            foreach($type_temp as $item)
-                array_push($type_array, $item->nodeValue);
-            $data['type'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
-            $data['tags'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
-        }
-        $data['published'] = 'TRUE';
-        $data['option1_name'] = 'Title';
-        $data['option1_value'] = 'Default Title';
-        $data['option2_name'] = '';
-        $data['option2_value'] = '';
-        $data['option3_name'] = '';
-        $data['option3_value'] = '';
-        $data['variant_sku'] = $href;
+        // $type_array = [];
+        // $type_temp = $pokemon_xpath->query('//div[@id="nav-subnav"]//a//span[@class="nav-a-content"]/text()');
+        // if(!is_null($type_temp))
+        // {
+        //     foreach($type_temp as $item)
+        //         array_push($type_array, $item->nodeValue);
+        //     $data['type'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
+        //     $data['tags'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
+        // }
+        // $data['published'] = 'TRUE';
+        // $data['option1_name'] = 'Title';
+        // $data['option1_value'] = 'Default Title';
+        // $data['option2_name'] = '';
+        // $data['option2_value'] = '';
+        // $data['option3_name'] = '';
+        // $data['option3_value'] = '';
+        // $data['variant_sku'] = $href;
 
-        $grams_temp = [];
-        $grams_temp = $pokemon_xpath->query('//div[@class="a-expander-content a-expander-section-content a-section-expander-inner"]//table//tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() = " Product Dimensions "]/td/text()');
-        if(count($grams_temp))
-        {
-            foreach($grams_temp as $item)
-                $grams_array = explode(';', $item->nodeValue)[1];
-            if($grams_array)
-                $data['variant_grams'] = trim(explode('g', $grams_array)[0]);
-        }
-        else
-            $data['variant_grams'] = '0';
+        // $grams_temp = [];
+        // $grams_temp = $pokemon_xpath->query('//div[@class="a-expander-content a-expander-section-content a-section-expander-inner"]//table//tr[th[@class="a-color-secondary a-size-base prodDetSectionEntry"]/text() = " Product Dimensions "]/td/text()');
+        // if(count($grams_temp))
+        // {
+        //     foreach($grams_temp as $item)
+        //         $grams_array = explode(';', $item->nodeValue)[1];
+        //     if($grams_array)
+        //         $data['variant_grams'] = trim(explode('g', $grams_array)[0]);
+        // }
+        // else
+        //     $data['variant_grams'] = '0';
 
-        $data['variant_inventory_tracker'] = 'shopify';
-        $data['variant_qty'] = '3';
-        $data['variant_inventory_policy'] = 'deny';
-        $data['variant_fullfillment_service'] = 'manual';
+        // $data['variant_inventory_tracker'] = 'shopify';
+        // $data['variant_qty'] = '3';
+        // $data['variant_inventory_policy'] = 'deny';
+        // $data['variant_fullfillment_service'] = 'manual';
 
         $price = '';
         $price_temp = [];
