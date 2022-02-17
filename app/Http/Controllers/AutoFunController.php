@@ -101,48 +101,99 @@ class AutoFunController extends Controller
             }
         };
         curl_close($curl);
-        
-        for($i = 0; $i < count($result); $i++)
+        if(count($result) > 310)
         {
-            $variants = $result[$i]->variants;
-
-            $product = $this->output($variants[0]->sku);
-
-            $pokemon_doc = new DOMDocument;
-            libxml_use_internal_errors(true);
-            $pokemon_doc->loadHTML($product);
-            libxml_clear_errors();
-
-            $pokemon_xpath = new DOMXPath($pokemon_doc);
-            $soldout_temp = $pokemon_xpath->query('//p[text() = "このオークションは終了しています"]');
-            if(!is_null($soldout_temp))
+            for($i = count($result) - 1; $i > count($result) - 300; $i--)
             {
-                foreach ($soldout_temp as $item) {
-                    if($item->nodeValue == 'このオークションは終了しています')
-                    {
-                        $res = $this->removeProduct($result[$i]->id);
-                        if($res)
+                $variants = $result[$i]->variants;
+
+                $product = $this->output($variants[0]->sku);
+
+                $pokemon_doc = new DOMDocument;
+                libxml_use_internal_errors(true);
+                $pokemon_doc->loadHTML($product);
+                libxml_clear_errors();
+
+                $pokemon_xpath = new DOMXPath($pokemon_doc);
+                $soldout_temp = $pokemon_xpath->query('//p[text() = "このオークションは終了しています"]');
+                if(!is_null($soldout_temp))
+                {
+                    foreach ($soldout_temp as $item) {
+                        if($item->nodeValue == 'このオークションは終了しています')
                         {
-                            $count++;
-                            $title = $title . PHP_EOL . $result[$i]->title;
+                            $res = $this->removeProduct($result[$i]->id);
+                            if($res)
+                            {
+                                $count++;
+                                $title = $title . PHP_EOL . $result[$i]->title;
+                            }
                         }
                     }
                 }
-            }
-            else {
-                $url_temp = $pokemon_xpath->query('//div[@class="l-left"]//ul[@class="ProductDetail__items ProductDetail__items--primary"]//li[@class="ProductDetail__item"]//dl//dd[@class="ProductDetail__description"]/text()');
-                if(!is_null($url_temp))
-                {
-                    foreach($url_temp as $item)
-                        $amount = $item->nodeValue;
-                    
-                    if(!$amount)
+                else {
+                    $url_temp = $pokemon_xpath->query('//div[@class="l-left"]//ul[@class="ProductDetail__items ProductDetail__items--primary"]//li[@class="ProductDetail__item"]//dl//dd[@class="ProductDetail__description"]/text()');
+                    if(!is_null($url_temp))
                     {
-                        $res = $this->removeProduct($result[$i]->id);
-                        if($res)
+                        foreach($url_temp as $item)
+                            $amount = $item->nodeValue;
+                        
+                        if(!$amount)
                         {
-                            $count++;
-                            $title = $title . PHP_EOL . $result[$i]->title;
+                            $res = $this->removeProduct($result[$i]->id);
+                            if($res)
+                            {
+                                $count++;
+                                $title = $title . PHP_EOL . $result[$i]->title;
+                            }
+                        }
+                    }
+                }
+            }    
+        }
+        else
+        {
+            for($i = 0; $i < count($result); $i++)
+            {
+                $variants = $result[$i]->variants;
+
+                $product = $this->output($variants[0]->sku);
+
+                $pokemon_doc = new DOMDocument;
+                libxml_use_internal_errors(true);
+                $pokemon_doc->loadHTML($product);
+                libxml_clear_errors();
+
+                $pokemon_xpath = new DOMXPath($pokemon_doc);
+                $soldout_temp = $pokemon_xpath->query('//p[text() = "このオークションは終了しています"]');
+                if(!is_null($soldout_temp))
+                {
+                    foreach ($soldout_temp as $item) {
+                        if($item->nodeValue == 'このオークションは終了しています')
+                        {
+                            $res = $this->removeProduct($result[$i]->id);
+                            if($res)
+                            {
+                                $count++;
+                                $title = $title . PHP_EOL . $result[$i]->title;
+                            }
+                        }
+                    }
+                }
+                else {
+                    $url_temp = $pokemon_xpath->query('//div[@class="l-left"]//ul[@class="ProductDetail__items ProductDetail__items--primary"]//li[@class="ProductDetail__item"]//dl//dd[@class="ProductDetail__description"]/text()');
+                    if(!is_null($url_temp))
+                    {
+                        foreach($url_temp as $item)
+                            $amount = $item->nodeValue;
+                        
+                        if(!$amount)
+                        {
+                            $res = $this->removeProduct($result[$i]->id);
+                            if($res)
+                            {
+                                $count++;
+                                $title = $title . PHP_EOL . $result[$i]->title;
+                            }
                         }
                     }
                 }
