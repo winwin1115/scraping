@@ -101,9 +101,9 @@ class AutoFunController extends Controller
             }
         };
         curl_close($curl);
-        if(count($result) > 310)
+        if(count($result) > 110)
         {
-            for($i = count($result) - 1; $i > count($result) - 300; $i--)
+            for($i = count($result) - 1; $i > count($result) - 100; $i--)
             {
                 $variants = $result[$i]->variants;
 
@@ -152,7 +152,7 @@ class AutoFunController extends Controller
         }
         else
         {
-            for($i = 0; $i < 10; $i++)
+            for($i = 0; $i < count($result); $i++)
             {
                 $variants = $result[$i]->variants;
 
