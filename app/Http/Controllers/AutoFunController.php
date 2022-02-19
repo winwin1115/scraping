@@ -152,7 +152,7 @@ class AutoFunController extends Controller
         }
         else
         {
-            for($i = 0; $i < count($result); $i++)
+            for($i = 0; $i < 10; $i++)
             {
                 $variants = $result[$i]->variants;
 
