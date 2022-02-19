@@ -101,9 +101,10 @@ class AutoFunController extends Controller
             }
         };
         curl_close($curl);
+        dd(count($result));
         if(count($result) > 110)
         {
-            for($i = count($result) - 1; $i > count($result) - 100; $i--)
+            for($i = count($result) - 1; $i > count($result) - 50; $i--)
             {
                 $variants = $result[$i]->variants;
 
