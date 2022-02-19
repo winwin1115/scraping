@@ -101,63 +101,12 @@ class AutoFunController extends Controller
             }
         };
         curl_close($curl);
-        if(count($result) > 110)
+        for($i = 0; $i < count($result); $i++)
         {
-            for($i = 0; $i < count($result); $i++)
+            $variants = $result[$i]->variants;                
+            if (substr($variants[0]->sku, 0, 10) == 'https://pa')
             {
-                $variants = $result[$i]->variants;
-
                 $product = $this->output($variants[0]->sku);
-                dd(substr($variants[0]->sku, 0, 10));
-                $pokemon_doc = new DOMDocument;
-                libxml_use_internal_errors(true);
-                $pokemon_doc->loadHTML($product);
-                libxml_clear_errors();
-
-                $pokemon_xpath = new DOMXPath($pokemon_doc);
-                $soldout_temp = $pokemon_xpath->query('//p[text() = "このオークションは終了しています"]');
-                if(!is_null($soldout_temp))
-                {
-                    foreach ($soldout_temp as $item) {
-                        if($item->nodeValue == 'このオークションは終了しています')
-                        {
-                            $res = $this->removeProduct($result[$i]->id);
-                            if($res)
-                            {
-                                $count++;
-                                $title = $title . PHP_EOL . $result[$i]->title;
-                            }
-                        }
-                    }
-                }
-                else {
-                    $url_temp = $pokemon_xpath->query('//div[@class="l-left"]//ul[@class="ProductDetail__items ProductDetail__items--primary"]//li[@class="ProductDetail__item"]//dl//dd[@class="ProductDetail__description"]/text()');
-                    if(!is_null($url_temp))
-                    {
-                        foreach($url_temp as $item)
-                            $amount = $item->nodeValue;
-                        
-                        if(!$amount)
-                        {
-                            $res = $this->removeProduct($result[$i]->id);
-                            if($res)
-                            {
-                                $count++;
-                                $title = $title . PHP_EOL . $result[$i]->title;
-                            }
-                        }
-                    }
-                }
-            }    
-        }
-        else
-        {
-            for($i = 0; $i < count($result); $i++)
-            {
-                $variants = $result[$i]->variants;
-
-                $product = $this->output($variants[0]->sku);
-
                 $pokemon_doc = new DOMDocument;
                 libxml_use_internal_errors(true);
                 $pokemon_doc->loadHTML($product);
@@ -199,6 +148,7 @@ class AutoFunController extends Controller
                 }
             }
         }
+        
         $date = Carbon::now();
         $withdrawal = new Withdrawal;
         $withdrawal->withdraw_count = $count;
