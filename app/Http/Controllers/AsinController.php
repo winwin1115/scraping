@@ -362,9 +362,11 @@ class AsinController extends Controller
         $data['variant_inventory_policy'] = 'deny';
         $data['variant_fullfillment_service'] = 'manual';
 
-        $price = '';
+        $price = 0;
         $price_temp = [];
         $price_va_array = [];
+        $data['variant_price'] = 0;
+        $data['variant_compare_price'] = 0;
         $price1_temp = $pokemon_xpath->query('//div[@id="corePrice_feature_div"]//div[@class="a-section a-spacing-micro"]//span[@class="a-offscreen"]/text()');
         $price2_temp = $pokemon_xpath->query('//span[@class="a-size-mini olpWrapper"]');
         $price3_temp = $pokemon_xpath->query('//div[@id="olp_feature_div"]//span[@class="a-size-base a-color-price"]/text()');
