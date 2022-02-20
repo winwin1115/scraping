@@ -378,11 +378,18 @@ class AsinController extends Controller
                 $price_value = $item->nodeValue;
             if($price_value)
             {
-                var_dump($price_value);
-                $price = explode("¥", $price_value)[1];
-                $price = trim(str_replace(',', '', $price));
-                $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
-                $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+                if(strpos($price_value, '¥') !== false)
+                {
+                    $price = explode("¥", $price_value)[1];
+                    $price = trim(str_replace(',', '', $price));
+                    $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                    $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+                }
+                else
+                {
+                    var_dump('1');
+                    dd($price_value);
+                }
             }
         }
         else if(count($price2_temp))
@@ -391,11 +398,18 @@ class AsinController extends Controller
                 array_push($price_va_array, $item->nodeValue);
             if(count($price_va_array))
             {
-                var_dump($price_va_array[0]);
-                $price = explode("¥", $price_va_array[0])[1];
-                $price = trim(str_replace(',', '', $price));
-                $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
-                $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+                if(strpos($price_va_array[0], '¥') !== false)
+                {
+                    $price = explode("¥", $price_va_array[0])[1];
+                    $price = trim(str_replace(',', '', $price));
+                    $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                    $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+                }
+                else
+                {
+                    var_dump('2');
+                    dd($price_va_array[0]);
+                }
             }
         }
         else if(count($price3_temp))
@@ -405,11 +419,18 @@ class AsinController extends Controller
                 $price_value = $item->nodeValue;
             if($price_value)
             {
-                var_dump($price_value);
-                $price = explode("¥", $price_value)[1];
-                $price = trim(str_replace(',', '', $price));
-                $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
-                $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+                if(strpos($price_value, '¥') !== false)
+                {
+                    $price = explode("¥", $price_value)[1];
+                    $price = trim(str_replace(',', '', $price));
+                    $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                    $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
+                }
+                else
+                {
+                    var_dump('3');
+                    dd($price_value);
+                }
             }
         }
         else if(count($no_price_temp))
