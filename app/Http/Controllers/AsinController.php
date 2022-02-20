@@ -403,6 +403,7 @@ class AsinController extends Controller
                 $price_value = $item->nodeValue;
             if($price_value)
             {
+                var_dump($price_value);
                 $price = explode("¥", $price_value)[1];
                 $price = trim(str_replace(',', '', $price));
                 $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
@@ -434,7 +435,8 @@ class AsinController extends Controller
         $data['variant_barcode'] = '';
         $data['image_src'] = [];
         $data['image_position'] = [];
-        $image_src_temp = $pokemon_xpath->query('//div[@id="altImages"]//ul//li[@class="a-spacing-small item"]//img');
+        // $image_src_temp = $pokemon_xpath->query('//div[@id="altImages"]//ul//li[@class="a-spacing-small item"]//img');
+        $image_src_temp = $pokemon_xpath->query('//div[@class="imgTagWrapper"]//img');
         if(!is_null($image_src_temp))
         {
             foreach($image_src_temp as $index => $item)
@@ -443,7 +445,6 @@ class AsinController extends Controller
                 array_push($data['image_position'], $index + 1);
             }
         }
-
         $data['gift_card'] = 'FALSE';
         $data['google_product_cateory'] = '';
         $data['gender'] = '';
