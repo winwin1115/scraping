@@ -464,14 +464,23 @@ class AsinController extends Controller
         $data['variant_barcode'] = '';
         $data['image_src'] = [];
         $data['image_position'] = [];
-        // $image_src_temp = $pokemon_xpath->query('//div[@id="altImages"]//ul//li[@class="a-spacing-small item"]//img');
-        $image_src_temp = $pokemon_xpath->query('//div[@class="imgTagWrapper"]//img');
+
+        $image_src_temp = $pokemon_xpath->query('//div[@id="altImages"]//ul//li[@class="a-spacing-small item"]//img');
+        // $image_src_temp = $pokemon_xpath->query('//div[@class="imgTagWrapper"]//img');
         if(!is_null($image_src_temp))
         {
             foreach($image_src_temp as $index => $item)
             {
-                array_push($data['image_src'], $item->getAttribute('src'));
-                array_push($data['image_position'], $index + 1);
+                $img_dev = $item->getAttribute('src');
+                $img_temp = '';
+                if($img_dev)
+                {
+                    $img_word1 = explode('._', $img_dev);
+                    $img_word2 = explode('_.', $img_word1[1]);
+                    $img_temp = $img_word1[0] . '._SY425_.' . $img_word2[1];
+                    array_push($data['image_src'], $img_temp);
+                    array_push($data['image_position'], $index + 1);
+                }
             }
         }
         $data['gift_card'] = 'FALSE';
