@@ -385,10 +385,12 @@ class AsinController extends Controller
                     $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
                     $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
                 }
-                else
+                else if(strpos($price_value, '￥') !== false)
                 {
-                    var_dump('1');
-                    dd($price_value);
+                    $price = explode("￥", $price_value)[1];
+                    $price = trim(str_replace(',', '', $price));
+                    $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                    $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
                 }
             }
         }
@@ -405,10 +407,12 @@ class AsinController extends Controller
                     $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
                     $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
                 }
-                else
+                else if(strpos($price_va_array[0], '￥') !== false)
                 {
-                    var_dump('2');
-                    dd($price_va_array[0]);
+                    $price = explode("￥", $price_va_array[0])[1];
+                    $price = trim(str_replace(',', '', $price));
+                    $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                    $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
                 }
             }
         }
@@ -426,10 +430,12 @@ class AsinController extends Controller
                     $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
                     $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
                 }
-                else
+                else if(strpos($price_value, '￥') !== false)
                 {
-                    var_dump('3');
-                    dd($price_value);
+                    $price = explode("￥", $price_value)[1];
+                    $price = trim(str_replace(',', '', $price));
+                    $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
+                    $data['variant_compare_price'] = (float)$price * $currency_rate * 1.1;
                 }
             }
         }
