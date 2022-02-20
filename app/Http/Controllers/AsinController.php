@@ -378,6 +378,7 @@ class AsinController extends Controller
                 $price_value = $item->nodeValue;
             if($price_value)
             {
+                var_dump($price_value);
                 $price = explode("¥", $price_value)[1];
                 $price = trim(str_replace(',', '', $price));
                 $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
@@ -390,6 +391,7 @@ class AsinController extends Controller
                 array_push($price_va_array, $item->nodeValue);
             if(count($price_va_array))
             {
+                var_dump($price_va_array[0]);
                 $price = explode("¥", $price_va_array[0])[1];
                 $price = trim(str_replace(',', '', $price));
                 $data['variant_price'] = (float)$price * $currency_rate * $profit_rate;
