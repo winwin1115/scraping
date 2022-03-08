@@ -333,8 +333,11 @@ class AsinController extends Controller
         {
             foreach($type_temp as $item)
                 array_push($type_array, $item->nodeValue);
-            $data['type'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
-            $data['tags'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
+            if(count($type_array))
+            {
+                $data['type'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
+                $data['tags'] = trim(preg_replace("/\r|\n/", "", $type_array[0]));
+            }
         }
         $data['published'] = 'TRUE';
         $data['option1_name'] = 'Title';
@@ -352,7 +355,15 @@ class AsinController extends Controller
             foreach($grams_temp as $item)
                 $grams_array = explode(';', $item->nodeValue)[1];
             if($grams_array)
-                $data['variant_grams'] = trim(explode('g', $grams_array)[0]);
+            {
+                if(str_contains($grams_array, 'Kg'))
+                {
+                    $data['variant_grams'] = trim(explode('Kg', $grams_array)[0]);
+                    $data['variant_grams'] = (float)$data['variant_grams'] * 1000;
+                }
+                else if(str_contains($grams_array, 'g'))
+                    $data['variant_grams'] = trim(explode('g', $grams_array)[0]);
+            }
         }
         else
             $data['variant_grams'] = '0';

@@ -36,7 +36,7 @@ var Products = (function () {
 		var _token = $('#token_hidden').val();
 		$('#addModal').modal('hide');
 		$.ajax({
-			url: 'urls/add',
+			url: 'urls-add',
 			type: 'POST',
 			data: {
 				site_type: site_type,
